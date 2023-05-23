@@ -1,36 +1,9 @@
-// - Auswahlmöglichkeiten ausblenden (reversierbar?)
 // - slur --> balkentrennung beachten!
-
 /*
-2
-Level (oder?)
-- 1-4 + Dropdown
-
-3
-Instrument 
-x Instrument (Vibraphon vorausgewählt)
 - Tonumfang gerne mit angeben und auch auswählbar machen, 
 --> bei jedem level separat -- in Level einbinden
-
-4
-Allgemein 
-x Takart 
-x Notenschlüssel (da reichen mir eigentlich nur Violin und Bassschlüssel) 
 - Tonart (C-Dur, Db-Dur etc)
-x Tempo 
-x Takte
-
-5
-Melodie 
-x Max Interval
-x Nur Tonart 
-
-6
-Rhythmus 
-x So wie es ist 
-
 */
-
 // https://github.com/paulrosen/abcjs/blob/main/examples/basic-transpose.html
 // https://abcnotation.com/wiki/abc:standard:v2.1
 // http://www.lehrklaenge.de/PHP/Grundlagen/Notenschluessel.php
@@ -50,7 +23,6 @@ const ocjeneSubgrid = [
 	["cl_OcjeneLevelselect2", "left"],
 	["cl_OcjeneLevelExercise", "left"],
 	["cl_OcjeneInstrumentHeader", "left", "end"],
-
 	["cl_OcjeneSongHeader", "left", "end"],
 	["cl_OcjeneRhytmusHeader", "left", "end"],
 	["cl_OcjeneMelodieHeader", "left", "end"],
@@ -64,12 +36,9 @@ const ocjeneSubgrid = [
 	["cl_OcjeneTriplet", "left"],
 	["cl_OcjeneBarOverflowStop", "left"],
 	["cl_OcjeneMetronome", "left"],
-	// ["cl_OcjeneShowText", "left"],
-	// ["cl_OcjeneTextLanguage", "left"],
 	["cl_OcjeneInstrument", "left"],
 	["cl_OcjeneInterval", "left"],
 	["cl_OcjeneClefs", "left"],
-	// ["cl_OcjeneKeySignature", "left"],
 	["cl_OcjeneKey", "left"],
 	["cl_OcjeneKeyOnly", "left"],
 	["cl_OcjeneTimeSignature", "left"],
@@ -78,6 +47,9 @@ const ocjeneSubgrid = [
 	["cl_OcjeneLimitRange", "left"],
 	["cl_OcjeneRests", "left"],
 	["cl_OcjeneGenerate", "left", "end"],
+	// ["cl_OcjeneShowText", "left"],
+	// ["cl_OcjeneTextLanguage", "left"],
+	// ["cl_OcjeneKeySignature", "left"],
 ];
 
 const ocjeneOptions = {
@@ -90,7 +62,6 @@ const ocjeneOptions = {
 	division: 576,
 	notenwerte: {
 		selected: [],
-		// selectedOrig: [0, 0, 0, 1, 0, 0], //1/1, 1/2, 1/4, 1/8, 1/16, 1/32
 		selectedOrig: [0, 1, 1, 1, 0, 0], //1/1, 1/2, 1/4, 1/8, 1/16, 1/32
 		quaternote: 144,
 		noteArrays: {
@@ -554,7 +525,7 @@ const ocjeneOptions = {
 			// { abc: "treble+8", en: "G8va", de: "Violin" },
 			// { abc: "treble-8", en: "G8vb", de: "Violin" },
 			// { abc: "bass+8", en: "F8va", de: "Bass" },
-			// { abc: "bass-8", en: "F8vb", de: "Bass" },
+			{ abc: "bass-8", en: "F8vb", de: "Bass" },
 		],
 		timeSignatures: [
 			{ sig: [2, 2], postfix: "", accentuation: [2] },
@@ -620,7 +591,7 @@ const ocjeneInstruments = {
 		return this.getInstrumentRange;
 	},
 	instrumentFilterList: ["Vibraphon", "Klavier", "Violine", "Posaune", "Marimba", "Kontrabass"],
-	data: [
+	dataSel: [
 		{
 			nameDE: "Klavier",
 			family: "Tasteninstrument",
@@ -1014,6 +985,78 @@ const ocjeneInstruments = {
 			],
 		},
 	],
+	data: [
+		{
+			ID: "trombone-treble",
+			nameEN: "Trombone",
+			nameDE: "Posaune",
+			range: [
+				[40, 71],
+				[36, 74],
+			],
+			nameENtuning: null,
+			transposeChromatic: -14,
+			midiInstrumentIndex: 57,
+			family: "Posaunen",
+			clef: "F",
+		},
+		{
+			ID: "vibraphone",
+			nameEN: "Vibraphone",
+			nameDE: "Vibraphon",
+			range: [
+				[53, 89],
+				[48, 96],
+			],
+			nameENtuning: null,
+			transposeChromatic: 0,
+			midiInstrumentIndex: 11,
+			family: "Keyboard Perkussion",
+			clef: "G",
+		},
+		{
+			ID: "marimba-single",
+			nameEN: "Marimba",
+			nameDE: "Marimba",
+			range: [
+				[45, 96],
+				[36, 96],
+			],
+			nameENtuning: null,
+			transposeChromatic: 0,
+			midiInstrumentIndex: 12,
+			family: "Keyboard Perkussion",
+			clef: "G",
+		},
+		{
+			ID: "upright-piano",
+			nameEN: "Upright Piano",
+			nameDE: "Klavier",
+			range: [
+				[21, 108],
+				[21, 108],
+			],
+			nameENtuning: null,
+			transposeChromatic: 0,
+			midiInstrumentIndex: 0,
+			family: "Tasteninstrumente",
+			clef: "G",
+		},
+		{
+			ID: "contrabass",
+			nameEN: "Contrabass",
+			nameDE: "Kontrabass",
+			range: [
+				[28, 62],
+				[24, 67],
+			],
+			nameENtuning: null,
+			transposeChromatic: -12,
+			midiInstrumentIndex: 43,
+			family: "Orchestrale Streicher",
+			clef: "F8vb",
+		},
+	],
 };
 
 const ocjeneSong = {
@@ -1024,7 +1067,7 @@ const ocjeneSong = {
 		const config = {
 			T: `${firstLetterCap(this.title)}`, //Title --- shot bars:    \n%%barnumbers 1
 			// C: `Musik: ${this.author}`, //Author
-			S: `${new Date().getFullYear()}, V. Heuken`, // copyright
+			// S: `${new Date().getFullYear()}, KlausHe`, // copyright
 			M: ocjeneOptions.timeSignature.currSignature.sig.join("/"), //Taktart
 			L: `1/${ocjeneOptions.division}`, // kleinster Notenwert
 			Q: `1/4=${ocjeneOptions.tempo.val}`, // tempo
@@ -1067,7 +1110,7 @@ const ocjeneSong = {
 		let text = "";
 		for (let n of ocjeneSong.noteData) {
 			song += n.abcJSPitch;
-			text += n.translateText();
+			// text += n.translateText();
 		}
 		song += "|]";
 		text += "]";
@@ -1301,7 +1344,7 @@ function ocjeneGenerate() {
 	// console.clear();
 	btnColor("idBtn_ocjeneGenerate", null);
 	ocjeneSong.title = `Notenübung ${ocjeneSettings.level}`; //randomObject(netsaonaOptions.data.RandomWord);
-	ocjeneSong.author = "Volker H."; //randomObject(netsaonaOptions.data.Name);
+	ocjeneSong.author = "KlausHe"; //randomObject(netsaonaOptions.data.Name);
 	ocjeneSong.noteData = [];
 	ocjeneSong.currentSongLength = 0;
 	while (ocjeneSong.currentSongLength < ocjeneSong.songlength) {
@@ -1467,8 +1510,8 @@ function ocjeneCleanAfterGeneration() {
 function ocjeneCursorControl() {
 	this.onReady = function () {};
 	this.onStart = function () {
-		var svg = document.querySelector(`#idCanv_ocjeneSheet svg`);
-		var cursor = document.createElementNS("http://www.w3.org/2000/svg", "line");
+		let svg = document.querySelector(`#idCanv_ocjeneSheet svg`);
+		let cursor = document.createElementNS("http://www.w3.org/2000/svg", "line");
 		cursor.setAttribute("class", "cl_abcCursor");
 		cursor.setAttributeNS(null, "x1", 0);
 		cursor.setAttributeNS(null, "y1", 0);
@@ -1523,7 +1566,9 @@ function ocjeneDraw() {
 	const res = `${ocjeneSong.header}${ocjeneSong.abcJSSong}\n${text}`;
 	const drawOptions = {
 		print: false, // show in DINA4 format
-		staffwidth: getCssRoot("CardsMinWidth", true, true), // width 600
+		// staffwidth: 400, // width 600
+		staffwidth: getCssRoot("CardsWidth", true, true), // width 600
+		responsive: "resize",
 		wrap: {
 			minSpacing: 1.8,
 			maxSpacing: 2.7,
@@ -1702,7 +1747,7 @@ function ocjenePopulateInstruments() {
 		let tuning = opt.nameENtuning == null ? "" : ` in ${opt.nameENtuning}`;
 		option.textContent = `${opt.nameDE}${tuning}`;
 		option.value = opt.ID;
-    selParent.appendChild(option);
+		selParent.appendChild(option);
 		// optGroup.appendChild(option);
 		if (opt.nameDE == ocjeneInstruments.instrument.nameDE) option.selected = true;
 	}

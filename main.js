@@ -1,340 +1,38 @@
-window.onload = mainSetup;
-const globalValues = {
-	prevSection: "",
-	nextSection: null,
-	get defaultStart() {
-		if (!["local", "127.0.0.1"].some((s) => window.location.hostname.includes(s))) {
-			return dbID(`idDiv_navBar_Home`);
-		} else {
-			return dbID(`idDiv_footerBar_Ocjene`);
-		}
+// Colors for the niceness of the page
+const ColorScheme = {
+	lightmode: {
+		txtMain: [0, 100, 0], // Akzentfarbe light:'#c2bebc'
+		bgcBackground: [0, 0, 99], //light:'#e6e6e6'
+		txtBackground: [0, 100, 0],
 	},
-	navClick(site) {
-		navClick(dbID(`idDiv_navBar_${site}`));
+	darkmode: {
+		txtMain: [0, 100, 100], // Akzentfarbe dark: '#c2bebc'
+		bgcBackground: [60, 0, 10], // General Background dark: '#1a1a1a'
+		txtBackground: [0, 100, 100],
 	},
+	darkmodeOn: false,
 };
+
+window.onload = mainSetup;
 
 function mainSetup() {
 	//add the Grid-Area-Names to all divs inside the sections
 	colToggleColormode();
-	navClick(globalValues.defaultStart);
 	htmlAltTag();
-	createButtons(FooterButtons, "idDiv_footerCredits", 0.5);
 	ocjeneGridAreas();
-	createContactData();
-	createNews();
-	createKonzerte();
-	createEnsembles();
-	createDisko();
 	createOcjene(true);
-	handleTabletChange(checkMediaQuery); // Initial check
 }
 
 function htmlAltTag() {
 	setAlt("trash");
 	setAlt("oAdd");
 	setAlt("oSub");
-
 	function setAlt(name) {
 		const obj = dbCL(`img_${name}`, null);
 		for (let imgObj of obj) {
 			imgObj.alt = `${name}.svg`;
 		}
 	}
-}
-
-function createContactData() {
-	for (const [key, value] of Object.entries(Contact)) {
-		const html = document.querySelectorAll(`[data-${key}]`);
-		for (const inst of html) {
-			if (key.includes("Ref")) {
-				inst.href = value;
-			} else {
-				inst.textContent = value;
-			}
-		}
-	}
-}
-
-function navClick(obj = null) {
-	if (obj == null) return;
-	globalValues.nextSection = obj.dataset.type;
-	if (globalValues.prevSection != globalValues.nextSection) {
-		let selectedID = `idDiv_navBar_${globalValues.nextSection}`;
-		//set the CSS-Active class to highlight the clicked Menu
-		const clArr = dbCL("cl_navElements", null);
-		for (const item of clArr) {
-			if (item.id === selectedID) {
-				item.classList.add("navbarActive");
-				dbID("idDiv_navBar_Menu").innerHTML = `&#9776;  ${item.textContent}`;
-			} else {
-				item.classList.remove("navbarActive");
-			}
-		}
-		//hide all Grid-Items except the selected
-		const mainGridItems = document.querySelectorAll("section");
-		let selected;
-		for (let item of mainGridItems) {
-			item.setAttribute("hidden", true);
-			item.removeAttribute("visible");
-			nextID = `id_${globalValues.nextSection}`;
-			if (nextID === item.id) {
-				selected = item;
-			}
-		}
-		selected.setAttribute("visible", true);
-		selected.removeAttribute("hidden");
-	}
-	//always scroll to the top
-	const scrollOptions = {
-		top: 0,
-		behavior: "smooth",
-	};
-	document.body.scrollTo(scrollOptions); // For Safari
-	document.documentElement.scrollTo(scrollOptions); // For Safari
-	globalValues.prevSection = globalValues.nextSection;
-	globalValues.nextSection = null;
-	dbID("idNav_navElements").classList.remove("navbarDropActive");
-}
-
-function createNews() {
-	const parent = dbID("id_NewsListe");
-	parent.innerHTML = "";
-	for (let news of News) {
-		const newsContainer = document.createElement("div");
-		parent.appendChild(newsContainer);
-		const spacer = document.createElement("h2");
-		spacer.classList.add("cl_gridLine");
-		newsContainer.appendChild(spacer);
-
-		const text = document.createElement("span");
-		text.textContent = news.text;
-		text.classList.add("cl_newsGrid_text");
-		if (news.hasOwnProperty("link") && news.link != "") {
-			text.classList.add("cl_newsGrid_link");
-			text.onclick = () => {
-				const type = Object.keys(news.link)[0];
-				if (type === "local") globalValues.navClick(news.link.local);
-				if (type === "url") window.open(news.link.url);
-			};
-		}
-		newsContainer.appendChild(text);
-	}
-}
-
-function createKonzerte() {
-	function checkUTC(UTC) {
-		const day = 86400000;
-		return UTC.getTime() + day >= new Date().getTime();
-	}
-	let parent = dbID(`id_KonzertListe`);
-	parent.innerHTML = "";
-	let splitIndex = null;
-	let prevList = sortArrayByKey(Konzerte, "datum", false);
-	let upcommingList;
-	for (const [index, konzert] of prevList.entries()) {
-		const d = new Date(Date.parse(konzert.datum.replace(/\./g, "/")));
-		if (checkUTC(d)) {
-			splitIndex = index;
-			break;
-		}
-	}
-	if (splitIndex != null) {
-		upcommingList = prevList.splice(splitIndex);
-		// upcomming shows
-		konzertEntry(parent, upcommingList, true);
-	} else {
-		const noShows = document.createElement("h2");
-		noShows.classList.add("cl_konzertFullRow");
-		noShows.textContent = "keine anstehenden Veranstaltungen";
-		parent.appendChild(noShows);
-	}
-	// line
-	const spacer = document.createElement("h2");
-	spacer.classList.add("cl_konzertFullRow", "cl_gridLine");
-	parent.appendChild(spacer);
-	const spacer2 = spacer.cloneNode(true);
-	parent.appendChild(spacer2);
-	// prev shows
-	prevList.reverse();
-	konzertEntry(parent, prevList.slice(0, 10), false);
-}
-
-function konzertEntry(parent, list, type) {
-	let lastYear = 0;
-	const title = document.createElement("h2");
-	title.textContent = type ? "anstehende Veranstaltungen" : "vergangene Veranstaltungen";
-	title.classList.add("cl_konzertFullRow");
-	parent.appendChild(title);
-
-	for (const [index, konzert] of list.entries()) {
-		konzert.UTC = new Date(Date.parse(konzert.datum.replace(/\./g, "/")));
-		const convDate = convertDate(konzert.UTC, true);
-		const year = konzert.UTC.getFullYear();
-		konzert.date = convDate;
-		const date = document.createElement("p");
-		date.textContent = konzert.date;
-		parent.appendChild(date);
-		const Startzeit = document.createElement("p");
-		Startzeit.textContent = konzert.Startzeit.length == 2 ? `${konzert.Startzeit} h` : konzert.Startzeit;
-		parent.appendChild(Startzeit);
-		const Titel = document.createElement("p");
-		Titel.textContent = konzert.Titel;
-		parent.appendChild(Titel);
-		const Location = document.createElement("p");
-		Location.textContent = konzert.Location;
-		if (konzert.UTC >= new Date() && konzert.link != undefined && konzert.link != "") {
-			Location.classList.add("highlight");
-			Location.title = `Öffnet die Website von\n"${konzert.Location}"`;
-			Location.onclick = () => {
-				window.open(konzert.link);
-			};
-		}
-		parent.appendChild(Location);
-		const Stadt = document.createElement("p");
-		Stadt.textContent = konzert.Stadt;
-		parent.appendChild(Stadt);
-	}
-}
-
-function createDisko() {
-	//select Section (parent)
-	const diskoPreview = dbID(`id_Disko_Preview`);
-	diskoPreview.innerHTML = "";
-	//container for all Cards, they overlay
-	const cardContainer = dbID(`id_Disko_Cards`);
-	cardContainer.innerHTML = "";
-	const diskoListe = sortArrayByKey(Disko, "datum", true);
-	for (const [index, data] of diskoListe.entries()) {
-		// create images with container
-		const diskoPreviewContainer = document.createElement("div");
-		diskoPreviewContainer.classList.add("cl_diskoPreview");
-		const diskoPreviewImage = document.createElement("img");
-		diskoPreviewImage.src = `Images/Disko/${data.picName}`;
-		diskoPreviewImage.classList.add("cl_diskoPreviewImg");
-
-		//create actual Card
-		const card = createSingleCard(data, index, "Disko");
-		card.id = `id_diskoCard_card${index}`;
-		card.classList.add("cl_cardDisko");
-		cardContainer.appendChild(card);
-		//logic to show the card
-		diskoPreviewContainer.onclick = () => {
-			for (const item of dbCL("cl_cardDisko", null)) {
-				item.classList.remove("cl_cardDiskoActive");
-			}
-			card.classList.add("cl_cardDiskoActive");
-		};
-		diskoPreviewContainer.appendChild(diskoPreviewImage);
-		diskoPreview.appendChild(diskoPreviewContainer);
-	}
-	//activate first Card
-	const randIndex = Math.floor(Math.random() * Disko.length);
-	dbID(`id_diskoCard_card${randIndex}`).classList.add("cl_cardDiskoActive");
-}
-
-function createEnsembles() {
-	const parent = dbCL(`cl_Ensembles`);
-	parent.innerHTML = "";
-	Ensembles.forEach((data, index) => {
-		const card = createSingleCard(data, index, "Ensembles");
-		parent.appendChild(card);
-	});
-}
-
-function createSingleCard(data, index = 0, type) {
-	const cardContainer = document.createElement("div");
-	cardContainer.classList.add("cl_card");
-
-	//Title
-	const title = document.createElement("h3");
-	title.classList.add("cl_cardTitle");
-	title.style.gridArea = "cardTitle";
-	title.innerText = data.title;
-	title.setAttribute("uiTextAlign", "block");
-	cardContainer.appendChild(title);
-
-	//Datum
-	if (data.datum) {
-		const date = document.createElement("p");
-		date.classList.add("cl_cardDate");
-		date.style.gridArea = "cardDate";
-		date.textContent = data.datum;
-		cardContainer.appendChild(date);
-	}
-
-	//Image
-	if (data.picName) {
-		const imageParent = document.createElement("div");
-		imageParent.classList.add("cl_cardImageParent");
-		imageParent.style.gridArea = "cardImageParent";
-		const imageMain = document.createElement("img");
-		imageMain.classList.add("cl_cardImage");
-		imageMain.src = `Images/${type}/${data.picName}`;
-		imageParent.appendChild(imageMain);
-		cardContainer.appendChild(imageParent);
-	}
-
-	// Text
-	if (data.description) {
-		const text = document.createElement("span");
-		text.classList.add("cl_cardText");
-		text.textContent = data.description;
-		cardContainer.appendChild(text);
-	}
-
-	//Besetzung
-	if (data.cast) {
-		const cast = document.createElement("div");
-		cast.classList.add("cl_cardCast");
-		cast.style.gridArea = "cardCast";
-		for (let c = 0; c < data.cast.length; c++) {
-			const member = document.createElement("p");
-			member.textContent = data.cast[c];
-			member.style.fontStyle = "italic";
-			member.setAttribute("uiTextAlign", "left");
-			cast.appendChild(member);
-		}
-		cardContainer.appendChild(cast);
-	}
-
-	if (data.links && data.links.length > 0) {
-		const links = document.createElement("div");
-		links.classList.add("cl_cardLinks");
-		cardContainer.appendChild(links);
-		createButtons(data.links, links);
-	}
-	return cardContainer;
-}
-
-function createButtons(btnsArr, parentID, size = null) {
-	let parent = dbID(parentID);
-	parent.innerHTML = "";
-	const spacer = document.createElement("div");
-	parent.appendChild(spacer);
-	btnsArr.forEach((arr, index) => {
-		const type = arr.type;
-		const link = arr.link;
-		const linkBtn = document.createElement("img");
-		if (size === null) {
-			linkBtn.classList.add("cl_cardImageLink");
-		} else {
-			linkBtn.classList.add("cl_footerImageLink");
-		}
-		if (type == "link") {
-			linkBtn.src = `https://www.google.com/s2/favicons?domain=${link}`;
-		} else {
-			linkBtn.src = `Images/Icons/i_${type}.svg`;
-		}
-		linkBtn.onclick = () => {
-			if (type === "order") {
-				window.location.href = `${Contact.mailRef}?subject=${"CD Bestellung"}&body=${encodeURI(link)}`;
-			} else {
-				window.open(link);
-			}
-		};
-		parent.appendChild(linkBtn);
-	});
 }
 
 //------------ Helperfunctions --------------
@@ -392,12 +90,12 @@ function deepClone(data) {
 	if (data === null || data === undefined) return data;
 	return JSON.parse(JSON.stringify(data));
 }
-function convertDate(date, fourDigitYear = false) {
-	const day = date.getDate().toString().padStart(2, 0);
-	const month = (date.getMonth() + 1).toString().padStart(2, 0);
-	const year = fourDigitYear ? date.getFullYear() : parseInt(date.getFullYear().toString().substr(2, 2), 10);
-	return `${day}.${month}.${year}`;
-}
+// function convertDate(date, fourDigitYear = false) {
+// 	const day = date.getDate().toString().padStart(2, 0);
+// 	const month = (date.getMonth() + 1).toString().padStart(2, 0);
+// 	const year = fourDigitYear ? date.getFullYear() : parseInt(date.getFullYear().toString().substr(2, 2), 10);
+// 	return `${day}.${month}.${year}`;
+// }
 
 function sortArrayByKey(arr, key, inverse = false) {
 	let array = Array.from(arr);
@@ -418,6 +116,139 @@ function sortArrayByKey(arr, key, inverse = false) {
 			}
 		}
 	});
+}
+
+// function ocjeneOpenSettings() {
+// 	dbID(Settings).showModal();
+// }
+// function ocjeneCloseSettings() {
+// 	dbID(Settings).close();
+// }
+
+function ocjeneGridAreas() {
+	for (const content of ocjeneSubgrid) {
+		dbCLStyle(content[0]).gridArea = content[0];
+		if (content[1]) dbCLStyle(content[0]).justifySelf = content[1];
+		if (content[2]) dbCLStyle(content[0]).alignSelf = content[2];
+	}
+}
+
+function htmlAltTag() {
+	setAlt("trash");
+	setAlt("oAdd");
+	setAlt("oSub");
+	function setAlt(name) {
+		const t = dbCL(`img_${name}`, null);
+		for (let e of t) {
+			e.alt = `${name}.svg`;
+		}
+	}
+}
+function utilsVinChange(id, v) {
+	let obj = null;
+	let siblingList = Array.from(id.parentNode.children);
+	for (let i = siblingList.indexOf(id) - 1; i >= 0; i--) {
+		if (siblingList[i].type != "button") {
+			obj = siblingList[i];
+			break;
+		}
+	}
+	if (obj == null) {
+		console.log("not found");
+		return;
+	}
+	if (obj.disabled) return;
+	const dir = Number(v);
+  if (dir == 0) {
+    if (Number(obj.value) === 0 || Number(obj.value) === Number(obj.min)) {
+      obj.value = "";
+      return;
+    }
+    obj.value = obj.min || 0;
+    return;
+  }
+  const actual = obj.value == "" && obj.placeholder != "" ? Number(obj.placeholder) : Number(obj.value);
+  const num = actual + dir;
+  const min = obj.hasAttribute("min") && dir < 1 ? Number(obj.min) : null;
+  const max = obj.hasAttribute("max") && dir > 0 ? Number(obj.max) : null;
+  obj.value = valueConstrain(num, min, max);
+
+	obj.dispatchEvent(new Event("input"));
+	obj.focus();
+}
+
+function valueConstrain(val, min = null, max = null) {
+	if (min == null && max == null) return val;
+	if (min != null && max != null) return Math.max(Math.min(val, max), min);
+	if (min == null && max != null) return Math.min(val, max);
+	if (min != null && max == null) return Math.max(val, min);
+}
+function resetInput(id, ph, opts = null) {
+	const obj = dbID(id);
+	if (obj.type == "checkbox") {
+		obj.checked = ph;
+		return ph;
+	}
+	obj.value = "";
+	obj.placeholder = ph;
+	if (opts != null) {
+		for (let [key, val] of Object.entries(opts)) {
+			obj[key] = val;
+		}
+	}
+	return Number(obj.placeholder);
+}
+function clearFirstChild(id) {
+	const obj = typeof id == "string" ? dbID(id) : id;
+	while (obj.firstChild) {
+		obj.removeChild(obj.firstChild);
+	}
+	return obj;
+}
+function btnColor(id, opt = null) {
+	const obj = dbID(id);
+	if (opt === null) obj.removeAttribute("data-btnstatus");
+	else if (opt === "positive") obj.dataset.btnstatus = "btnPositive";
+	else if (opt === "negative") obj.dataset.btnstatus = "btnNegative";
+	else if (opt === "colored") obj.dataset.btnstatus = "btnBasecolor";
+}
+function arrayFromNumber(obj, num = null) {
+	if (num == null && typeof obj == "number") return [...Array(obj).keys()];
+	if (typeof obj == "number" && typeof num == "number") {
+		let min = Math.min(obj, num);
+		let max = Math.max(obj, num);
+		let arr = [];
+		for (let i = min; i <= max; i++) {
+			arr.push(i);
+		}
+		return arr;
+	}
+}
+function randomIndex(obj) {
+	if (typeof obj == "string") return Math.floor(Math.random() * obj.length);
+	if (Array.isArray(obj)) return Math.floor(Math.random() * obj.length);
+	return Math.floor(Math.random() * Object.keys(obj).length);
+}
+function randomObject(obj, top = null) {
+	// takes a single Number, an Array or an Object
+	if (typeof obj == "number") return randomObject(arrayFromNumber(obj, top));
+	if (typeof obj == "string") return obj[randomIndex(obj)];
+	if (Array.isArray(obj) && obj.length <= 0) return null;
+	if (Array.isArray(obj)) return obj[randomIndex(obj)];
+	const objKeys = Object.keys(obj);
+	return obj[objKeys[randomIndex(objKeys)]];
+}
+function firstLetterCap(s) {
+	if (s == "") return s;
+	if (typeof s != "string") return s;
+	return s[0].toUpperCase() + s.slice(1);
+}
+function utilsNumberFromInput(id, failSafeVal = null, noPlaceholder = null) {
+	const obj = dbID(id);
+	if (!isNaN(obj.valueAsNumber)) return obj.valueAsNumber;
+	if (failSafeVal != null) return failSafeVal;
+	if (noPlaceholder != null) return null;
+	return Number(obj.placeholder);
 }
 
 ColorScheme.darkmodeOn = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -465,13 +296,111 @@ function navbarDropdownClick() {
 	dbID("idNav_navElements").classList.add("navbarDropActive");
 }
 
-const checkMediaQuery = window.matchMedia("(max-width: 850px)");
-checkMediaQuery.addEventListener("change", handleTabletChange);
-
-function handleTabletChange(e) {
-	const w = e.matches ? 80 : 300;
-	let s = dbCL("cl_spotifySmall");
-	s.style.width = `${w / 2}px`;
-	let iframe = `<iframe id="spotify" src="https://open.spotify.com/embed/artist/7pv0ZlsoLsO02h38vM8wVq" width="${w}px" height="80" frameBorder="0" allowtransparency="false" allow="encrypted-media"></iframe>`;
-	s.innerHTML = iframe;
-}
+const Data_Country_CodesIso639 = new Map([
+	["auto", "Automatic"],
+	["af", "Afrikaans"],
+	["sq", "Albanian"],
+	["am", "Amharic"],
+	["ar", "Arabic"],
+	["hy", "Armenian"],
+	["az", "Azerbaijani"],
+	["eu", "Basque"],
+	["be", "Belarusian"],
+	["bn", "Bengali"],
+	["bs", "Bosnian"],
+	["bg", "Bulgarian"],
+	["ca", "Catalan"],
+	["ceb", "Cebuano"],
+	["ny", "Chichewa"],
+	["zh-cn", "Chinese s."],
+	["zh-tw", "Taiwan t."],
+	["zh-hk", "Hongkong t."],
+	["co", "Corsican"],
+	["hr", "Croatian"],
+	["cs", "Czech"],
+	["da", "Danish"],
+	["nl", "Dutch"],
+	["en", "English"],
+	["eo", "Esperanto"],
+	["et", "Estonian"],
+	["tl", "Filipino"],
+	["fi", "Finnish"],
+	["fr", "French"],
+	["fy", "Frisian"],
+	["gl", "Galician"],
+	["ka", "Georgian"],
+	["de", "German"],
+	["el", "Greek"],
+	["gu", "Gujarati"],
+	["ht", "Haitian Creole"],
+	["ha", "Hausa"],
+	["haw", "Hawaiian"],
+	["he", "Hebrew"],
+	["hi", "Hindi"],
+	["hmn", "Hmong"],
+	["hu", "Hungarian"],
+	["is", "Icelandic"],
+	["ig", "Igbo"],
+	["id", "Indonesian"],
+	["ga", "Irish"],
+	["it", "Italian"],
+	["ja", "Japanese"],
+	["jw", "Javanese"],
+	["kn", "Kannada"],
+	["kk", "Kazakh"],
+	["km", "Khmer"],
+	["ko", "Korean"],
+	["ku", "Kurdish (Kurmanji)"],
+	["ky", "Kyrgyz"],
+	["lo", "Lao"],
+	["la", "Latin"],
+	["lv", "Latvian"],
+	["lt", "Lithuanian"],
+	["lb", "Luxembourgish"],
+	["mk", "Macedonian"],
+	["mg", "Malagasy"],
+	["ms", "Malay"],
+	["ml", "Malayalam"],
+	["mt", "Maltese"],
+	["mi", "Maori"],
+	["mr", "Marathi"],
+	["mn", "Mongolian"],
+	["my", "Myanmar (Burmese)"],
+	["ne", "Nepali"],
+	["nb", "Norwegian"],
+	["ps", "Pashto"],
+	["fa", "Persian"],
+	["pl", "Polish"],
+	["pt", "Portuguese"],
+	["ma", "Punjabi"],
+	["ro", "Romanian"],
+	["ru", "Russian"],
+	["sm", "Samoan"],
+	["gd", "Scots Gaelic"],
+	["sr", "Serbian"],
+	["st", "Sesotho"],
+	["sn", "Shona"],
+	["sd", "Sindhi"],
+	["si", "Sinhala"],
+	["sk", "Slovak"],
+	["sl", "Slovenian"],
+	["so", "Somali"],
+	["es", "Spanish"],
+	["su", "Sundanese"],
+	["sw", "Swahili"],
+	["sv", "Swedish"],
+	["tg", "Tajik"],
+	["ta", "Tamil"],
+	["te", "Telugu"],
+	["th", "Thai"],
+	["tr", "Turkish"],
+	["uk", "Ukrainian"],
+	["ur", "Urdu"],
+	["uz", "Uzbek"],
+	["vi", "Vietnamese"],
+	["cy", "Welsh"],
+	["xh", "Xhosa"],
+	["yi", "Yiddish"],
+	["yo", "Yoruba"],
+	["zu", "Zulu]"],
+]);
