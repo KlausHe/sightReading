@@ -90,12 +90,6 @@ function deepClone(data) {
 	if (data === null || data === undefined) return data;
 	return JSON.parse(JSON.stringify(data));
 }
-// function convertDate(date, fourDigitYear = false) {
-// 	const day = date.getDate().toString().padStart(2, 0);
-// 	const month = (date.getMonth() + 1).toString().padStart(2, 0);
-// 	const year = fourDigitYear ? date.getFullYear() : parseInt(date.getFullYear().toString().substr(2, 2), 10);
-// 	return `${day}.${month}.${year}`;
-// }
 
 function sortArrayByKey(arr, key, inverse = false) {
 	let array = Array.from(arr);
@@ -291,10 +285,6 @@ function colToggleColormode(btn = null) {
 	setCssRoot(`filter`, ColorScheme.darkmodeOn ? 1 : 0);
 }
 
-//----- Toggle Navbar Dropdown -----------s
-function navbarDropdownClick() {
-	dbID("idNav_navElements").classList.add("navbarDropActive");
-}
 
 const Data_Country_CodesIso639 = new Map([
 	["auto", "Automatic"],
