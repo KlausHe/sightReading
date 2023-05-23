@@ -505,7 +505,6 @@ section {
 	text-align: right;
 }
 
-/*  */
 [uiAlign~="left"] {
 	justify-content: start;
 }
@@ -520,7 +519,6 @@ section {
 	justify-items: flex-end;
 }
 
-/*  */
 [uiAlign~="top"] {
 	align-items: start;
 }
