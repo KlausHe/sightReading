@@ -1,6 +1,6 @@
 {
-    "name": "Volker Heuken - Vibraphon - Leipzig",
-    "short_name": "VH",
+    "name": "Sight-Reading",
+    "short_name": "Sight-Reading",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",
@@ -13,7 +13,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#0D0D0D",
-    "background_color": "#fcfcfc",
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
     "display": "standalone"
 }
