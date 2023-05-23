@@ -2,7 +2,6 @@
 /*
 - Tonumfang gerne mit angeben und auch auswählbar machen, 
 --> bei jedem level separat -- in Level einbinden
-- Tonart (C-Dur, Db-Dur etc)
 */
 // https://github.com/paulrosen/abcjs/blob/main/examples/basic-transpose.html
 // https://abcnotation.com/wiki/abc:standard:v2.1
@@ -47,9 +46,8 @@ const ocjeneSubgrid = [
 	["cl_OcjeneLimitRange", "left"],
 	["cl_OcjeneRests", "left"],
 	["cl_OcjeneGenerate", "left", "end"],
-	// ["cl_OcjeneShowText", "left"],
+	["cl_OcjeneShowText", "left"],
 	// ["cl_OcjeneTextLanguage", "left"],
-	// ["cl_OcjeneKeySignature", "left"],
 ];
 
 const ocjeneOptions = {
@@ -161,15 +159,11 @@ const ocjeneOptions = {
 			return ocjeneOptions.definitions.clefs[i].de;
 		},
 	},
-	keySignatures: {
-		index: 0,
-		indexOrig: 0,
-	},
 	keys: {
 		index: 0,
 		indexOrig: 0,
 		get current() {
-			return ocjeneOptions.definitions.keys[ocjeneOptions.keys.index][ocjeneOptions.keySignatures.index];
+			return ocjeneOptions.definitions.keys[ocjeneOptions.keys.index][0];
 		},
 		get shiftDir() {
 			return ocjeneOptions.keys.index <= 7 ? -1 : 1;
@@ -541,7 +535,6 @@ const ocjeneOptions = {
 			{ sig: [10, 8], postfix: "(3-2-3-2)", accentuation: [3, 2, 3, 2] },
 			{ sig: [12, 8], postfix: "", accentuation: [3, 3, 3, 3] },
 		],
-		keySignatures: ["Dur", "Moll"],
 		keys: [
 			["C", "Am", []],
 			["G", "Em", [6]],
@@ -558,6 +551,21 @@ const ocjeneOptions = {
 			["Db", "Bbm", [10, 3, 8, 1, 6]],
 			["Gb", "Ebm", [10, 3, 8, 1, 6]],
 			["Cb", "Abm", [10, 3, 8, 1, 6]],
+			// ["Am", []],
+			// ["Em", [6]],
+			// ["Bm", [6, 1]],
+			// ["F#m", [6, 1, 8]],
+			// ["C#m", [6, 1, 8, 3]],
+			// ["G#m", [6, 1, 8, 3, 10]],
+			// ["D#m", [6, 1, 8, 3, 10]],
+			// ["A#m", [6, 1, 8, 3, 10]],
+			// ["Dm", [10]],
+			// ["Gm", [10, 3]],
+			// ["Cm", [10, 3, 8]],
+			// ["Fm", [10, 3, 8, 1]],
+			// ["Bbm", [10, 3, 8, 1, 6]],
+			// ["Ebm", [10, 3, 8, 1, 6]],
+			// ["Abm", [10, 3, 8, 1, 6]],
 		],
 		accidentals: [1, 3, 6, 8, 10],
 		notAccidentals: [0, 2, 4, 5, 7, 9, 11],
@@ -1110,7 +1118,7 @@ const ocjeneSong = {
 		let text = "";
 		for (let n of ocjeneSong.noteData) {
 			song += n.abcJSPitch;
-			// text += n.translateText();
+			text += n.translateText();
 		}
 		song += "|]";
 		text += "]";
@@ -1568,7 +1576,7 @@ function ocjeneDraw() {
 		print: false, // show in DINA4 format
 		// staffwidth: 400, // width 600
 		staffwidth: getCssRoot("CardsWidth", true, true), // width 600
-		responsive: "resize",
+		// responsive: "resize",
 		wrap: {
 			minSpacing: 1.8,
 			maxSpacing: 2.7,
@@ -1629,7 +1637,8 @@ function createOcjene(preset = null) {
 	if (preset === null) ocjeneInstruments.index = ocjeneInstruments.indexOrig;
 	//populated at the end
 
-	ocjeneOptions.clef.index = preset === null ? ocjeneOptions.clef.indexOrig : ocjeneSettings.get("clef");
+	// ocjeneOptions.clef.index = preset === null ? ocjeneOptions.clef.indexOrig : ocjeneSettings.get("clef");
+	ocjeneOptions.clef.index = ocjeneOptions.definitions.clefs.findIndex((c) => c.en == ocjeneInstruments.instrument.clef);
 	const selClefs = dbID("idSel_ocjeneClefs");
 	clearFirstChild("idSel_ocjeneClefs");
 	for (let [index, clef] of ocjeneOptions.definitions.clefs.entries()) {
@@ -1639,19 +1648,6 @@ function createOcjene(preset = null) {
 		selClefs.appendChild(option);
 		if (index == ocjeneOptions.clef.index) option.selected = true;
 	}
-
-	ocjeneOptions.keySignatures.index = ocjeneOptions.keySignatures.indexOrig;
-	ocjeneOptions.keys.index = preset === null ? ocjeneOptions.keys.indexOrig : ocjeneSettings.get("keys");
-	const selKeySignatures = dbID("idSel_ocjeneKeySignature");
-	clearFirstChild("idSel_ocjeneKeySignature");
-	for (const [index, opt] of ocjeneOptions.definitions.keySignatures.entries()) {
-		const option = document.createElement("OPTION");
-		option.textContent = opt;
-		option.value = opt;
-		if (index == ocjeneOptions.keys.index) option.selected = true;
-		selKeySignatures.appendChild(option);
-	}
-	ocjenePopulateKeys(); // this needs to be below the KeySignatre definition!!
 
 	ocjeneOptions.keyOnly.state = preset === null ? ocjeneOptions.keyOnly.stateOrig : ocjeneSettings.get("keyOnly");
 	dbID("idCb_ocjeneKeyOnly").checked = ocjeneOptions.keyOnly.state;
@@ -1681,8 +1677,8 @@ function createOcjene(preset = null) {
 	ocjeneOptions.limitRange.upper = preset === null ? ocjeneOptions.limitRange.upperOrig : ocjeneSettings.get("limitRangeUpper");
 	//--> call "populate" at the end!
 
-	// ocjeneOptions.showText.state = preset === null ? ocjeneOptions.showText.stateOrig : ocjeneSettings.get("showText");
-	// dbID("idCb_ocjeneShowText").checked = ocjeneOptions.showText.state;
+	ocjeneOptions.showText.state = preset === null ? ocjeneOptions.showText.stateOrig : ocjeneSettings.get("showText");
+	dbID("idCb_ocjeneShowText").checked = ocjeneOptions.showText.state;
 
 	// ocjeneOptions.showMidi.state = preset === null ? ocjeneOptions.showMidi.stateOrig : ocjeneSettings.get("showMidi");
 	// dbID("idCb_ocjeneShowMidi").checked = ocjeneOptions.showMidi.state;
@@ -1707,6 +1703,7 @@ function createOcjene(preset = null) {
 	});
 
 	test();
+	ocjenePopulateKeys(); // this needs to be below the KeySignatre definition!!
 	ocjenePopulateInstruments();
 	ocjenePopulateLimitRangeSelect(true);
 	setTimeout(ocjeneGenerate, 300);
@@ -1715,44 +1712,51 @@ function createOcjene(preset = null) {
 function ocjenePopulateKeys() {
 	let selKey = dbID("idSel_ocjeneKey");
 	clearFirstChild("idSel_ocjeneKey");
+	let optGroupDur = document.createElement("optgroup");
+	let optGroupMoll = document.createElement("optgroup");
+	optGroupDur.label = "Dur";
+	optGroupMoll.label = "Moll";
 	for (const [index, opt] of ocjeneOptions.definitions.keys.entries()) {
-		const option = document.createElement("OPTION");
-		option.textContent = opt[ocjeneOptions.keySignatures.index];
-		option.value = opt[ocjeneOptions.keySignatures.index];
+		const optionDur = document.createElement("OPTION");
+		optionDur.textContent = opt[0];
+		optionDur.value = index;
+		const optionMoll = document.createElement("OPTION");
+		optionMoll.textContent = opt[1];
+		optionMoll.value = index;
 		if (index == 0 && ocjeneOptions.keys.index == null) {
-			option.selected = true;
+			optionDur.selected = true;
 		} else if (index == ocjeneOptions.keys.index) {
-			option.selected = true;
+			optionDur.selected = true;
 		}
-		selKey.appendChild(option);
+		optGroupDur.appendChild(optionDur);
+		optGroupMoll.appendChild(optionMoll);
 	}
+	selKey.appendChild(optGroupDur);
+	selKey.appendChild(optGroupMoll);
 }
 function ocjenePopulateInstruments() {
 	clearFirstChild("idSel_ocjeneInstrument");
-	const selParent = dbID("idSel_ocjeneInstrument");
-	// let family = {};
-	// for (const vals of Object.values(ocjeneInstruments.data)) {
-	// 	if (family[vals.family] === undefined) {
-	// 		family[vals.family] = [vals];
-	// 	} else {
-	// 		family[vals.family].push(vals);
-	// 	}
-	// }
-	// for (let [name, arr] of Object.entries(family)) {
-	// 	let optGroup = document.createElement("optgroup");
-	// 	optGroup.label = name;
-	// for (let opt of arr) {
-	for (let opt of ocjeneInstruments.data) {
-		const option = document.createElement("OPTION");
-		let tuning = opt.nameENtuning == null ? "" : ` in ${opt.nameENtuning}`;
-		option.textContent = `${opt.nameDE}${tuning}`;
-		option.value = opt.ID;
-		selParent.appendChild(option);
-		// optGroup.appendChild(option);
-		if (opt.nameDE == ocjeneInstruments.instrument.nameDE) option.selected = true;
+	let family = {};
+	for (const vals of Object.values(ocjeneInstruments.data)) {
+		if (family[vals.family] === undefined) {
+			family[vals.family] = [vals];
+		} else {
+			family[vals.family].push(vals);
+		}
 	}
-	// }
-	// dbID("idSel_ocjeneInstrument").appendChild(optGroup);
+	for (let [name, arr] of Object.entries(family)) {
+		let optGroup = document.createElement("optgroup");
+		optGroup.label = name;
+		for (let opt of arr) {
+			const option = document.createElement("OPTION");
+			let tuning = opt.nameENtuning == null ? "" : ` in ${opt.nameENtuning}`;
+			option.textContent = `${opt.nameDE}${tuning}`;
+			option.value = opt.ID;
+			optGroup.appendChild(option);
+			if (opt.nameDE == ocjeneInstruments.instrument.nameDE) option.selected = true;
+		}
+		dbID("idSel_ocjeneInstrument").appendChild(optGroup);
+	}
 }
 function ocjenePopulateLimitRangeSelect(instrumentChange = false) {
 	const selLimitRangeLower = dbID("idSel_ocjeneLimitRangeLower");
@@ -1816,14 +1820,8 @@ function ocjeneClefs(obj) {
 	ocjeneDraw();
 }
 
-function ocjeneKeySignature(obj) {
-	ocjeneOptions.keySignatures.index = obj.selectedIndex;
-	ocjenePopulateKeys();
-	ocjeneInputChange();
-}
-
 function ocjeneKey(obj) {
-	ocjeneOptions.keys.index = obj.selectedIndex;
+	ocjeneOptions.keys.index = obj.value;
 	ocjenePopulateLimitRangeSelect(false);
 	ocjeneInputChange();
 }
@@ -1919,115 +1917,109 @@ const ocjeneSettings = {
 	data: {
 		get tempo() {
 			if (ocjeneSettings.level == 1) return randomObject(90, 110);
-			if (ocjeneSettings.level == 2) return ocjeneOptions.tempo.valOrig;
-			if (ocjeneSettings.level == 3) return randomObject(70, 135);
-			if (ocjeneSettings.level == 4) return randomObject(60, 170);
+			if (ocjeneSettings.level == 2) return randomObject(90, 110);
+			if (ocjeneSettings.level == 3) return randomObject(90, 110);
+			if (ocjeneSettings.level == 4) return randomObject(90, 110);
 		},
 		get bars() {
 			if (ocjeneSettings.level == 1) return 4;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.bars.valOrig;
+			if (ocjeneSettings.level == 2) return 4;
 			if (ocjeneSettings.level == 3) return 8;
 			if (ocjeneSettings.level == 4) return 16;
 		},
 		get barOverflowStop() {
 			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.barOverflowStop.stateOrig;
+			if (ocjeneSettings.level == 2) return true;
 			if (ocjeneSettings.level == 3) return false;
 			if (ocjeneSettings.level == 4) return false;
 		},
 		get metronome() {
 			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.metronome.stateOrig;
+			if (ocjeneSettings.level == 2) return false;
 			if (ocjeneSettings.level == 3) return false;
 			if (ocjeneSettings.level == 4) return false;
 		},
 		get showText() {
-			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.showText.stateOrig;
+			if (ocjeneSettings.level == 1) return false;
+			if (ocjeneSettings.level == 2) return false;
 			if (ocjeneSettings.level == 3) return false;
 			if (ocjeneSettings.level == 4) return false;
 		},
 		get showMidi() {
 			if (ocjeneSettings.level == 1) return false;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.showMidi.stateOrig;
+			if (ocjeneSettings.level == 2) return false;
 			if (ocjeneSettings.level == 3) return false;
 			if (ocjeneSettings.level == 4) return false;
 		},
 		get textLanguage() {
 			if (ocjeneSettings.level == 1) return 5;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.textLanguage.indexOrig;
+			if (ocjeneSettings.level == 2) return 5;
 			if (ocjeneSettings.level == 3) return 5;
 			if (ocjeneSettings.level == 4) return 5;
 		},
 		get interval() {
-			if (ocjeneSettings.level == 1) return 5;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.interval.valOrig;
-			if (ocjeneSettings.level == 3) return 7;
-			if (ocjeneSettings.level == 4) return 8;
+			if (ocjeneSettings.level == 1) return 4;
+			if (ocjeneSettings.level == 2) return 5;
+			if (ocjeneSettings.level == 3) return 8;
+			if (ocjeneSettings.level == 4) return 10;
 		},
 		get timeSignature() {
-			if (ocjeneSettings.level == 1) return randomObject([2, 3]);
-			if (ocjeneSettings.level == 2) return ocjeneOptions.timeSignature.indexOrig;
-			if (ocjeneSettings.level == 3) return randomObject([1, 2, 3, 5, 7]);
-			if (ocjeneSettings.level == 4) return randomObject(ocjeneOptions.definitions.timeSignatures.length);
+			if (ocjeneSettings.level == 1) return 3;
+			if (ocjeneSettings.level == 2) return 3;
+			if (ocjeneSettings.level == 3) return 3;
+			if (ocjeneSettings.level == 4) return 3;
 		},
 		get notenwerte() {
-			if (ocjeneSettings.level == 1) return [1, 1, 1, 0, 0];
-			if (ocjeneSettings.level == 2) return ocjeneOptions.notenwerte.selectedOrig;
-			if (ocjeneSettings.level == 3) return [1, 1, 1, 1, 0];
-			if (ocjeneSettings.level == 4) return [0, 1, 1, 1, 1];
-		},
-		get clef() {
-			if (ocjeneSettings.level == 1) return 0;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.clef.indexOrig;
-			if (ocjeneSettings.level == 3) return randomObject([0, 6]);
-			if (ocjeneSettings.level == 4) return randomObject([0, 6]);
+			if (ocjeneSettings.level == 1) return [1, 1, 1, 0, 0, 0];
+			if (ocjeneSettings.level == 2) return [0, 1, 1, 1, 0, 0];
+			if (ocjeneSettings.level == 3) return [1, 1, 1, 1, 1, 0];
+			if (ocjeneSettings.level == 4) return [0, 1, 1, 1, 1, 0];
 		},
 		get keys() {
-			if (ocjeneSettings.level == 1) return randomObject([0, 1, 8]);
-			if (ocjeneSettings.level == 2) return ocjeneOptions.keys.indexOrig;
-			if (ocjeneSettings.level == 3) return randomObject([0, 1, 2, 8, 9]);
-			if (ocjeneSettings.level == 4) return randomObject(ocjeneOptions.definitions.keys.length);
+			if (ocjeneSettings.level == 1) return 0;
+			if (ocjeneSettings.level == 2) return 0;
+			if (ocjeneSettings.level == 3) return 0;
+			if (ocjeneSettings.level == 4) return 0;
 		},
 		get keyOnly() {
 			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.keyOnly.stateOrig;
+			if (ocjeneSettings.level == 2) return true;
 			if (ocjeneSettings.level == 3) return false;
 			if (ocjeneSettings.level == 4) return false;
 		},
 		get dotted() {
 			if (ocjeneSettings.level == 1) return 0;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.dotted.valOrig;
+			if (ocjeneSettings.level == 2) return 10;
 			if (ocjeneSettings.level == 3) return 10;
 			if (ocjeneSettings.level == 4) return 15;
 		},
 		get triplet() {
 			if (ocjeneSettings.level == 1) return 0;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.triplet.valOrig;
+			if (ocjeneSettings.level == 2) return 0;
 			if (ocjeneSettings.level == 3) return 10;
 			if (ocjeneSettings.level == 4) return 15;
 		},
 		get rests() {
 			if (ocjeneSettings.level == 1) return 0;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.rests.valOrig;
+			if (ocjeneSettings.level == 2) return 0;
 			if (ocjeneSettings.level == 3) return 15;
 			if (ocjeneSettings.level == 4) return 30;
 		},
 		get limitRange() {
 			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.limitRange.stateOrig;
+			if (ocjeneSettings.level == 2) return true;
 			if (ocjeneSettings.level == 3) return false;
 			if (ocjeneSettings.level == 4) return false;
 		},
 		get limitRangeLower() {
 			if (ocjeneSettings.level == 1) return 55;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.limitRange.lowerOrig;
+			if (ocjeneSettings.level == 2) return 53;
 			if (ocjeneSettings.level == 3) return 53;
 			if (ocjeneSettings.level == 4) return 50;
 		},
 		get limitRangeUpper() {
 			if (ocjeneSettings.level == 1) return 90;
-			if (ocjeneSettings.level == 2) return ocjeneOptions.limitRange.upperOrig;
+			if (ocjeneSettings.level == 2) return 92;
 			if (ocjeneSettings.level == 3) return 94;
 			if (ocjeneSettings.level == 4) return 95;
 		},

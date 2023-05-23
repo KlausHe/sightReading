@@ -51,198 +51,205 @@
     </div>
   </nav>
   <main>
-      <div class="cl_subGrid_Ocjene  section_width_2" uiAlign="center top">
-        <div class="cl_OcjeneSheet">
-          <div id="idCanv_ocjeneSheet"></div>
-          <div id="idCanv_ocjeneAudio"></div>
-        </div>
-        <!-- 1  OK -->
-        <div class="cl_OcjeneGenerate">
-          <button type="button" id="idBtn_ocjeneGenerate" onclick="ocjeneGenerate()" uiSize="size12">Neue
-            Melodie</button>
-        </div>
-        <!-- 2 OK -->
-        <div class="cl_OcjeneLevelHeader">
-          <label class="cl_info" uiSize="size12">Level</label>
-        </div>
-        <div class="cl_OcjeneLevelselect1">
-          <button type="button" id="idBtn_ocjeneLevelA" onclick="ocjeneRandom(this)" data-level="1" uiSize="size6"
-            uiRadius="left">Level 1</button><button type="button" id="idBtn_ocjeneLevelB" onclick="ocjeneRandom(this)"
-            data-level="2" uiSize="size6" uiRadius="right">Level 2</button>
-        </div>
-        <div class="cl_OcjeneLevelselect2">
-          <button type="button" id="idBtn_ocjeneLevelC" onclick="ocjeneRandom(this)" data-level="3" uiSize="size6"
-            uiRadius="left">Level 3</button><button type="button" id="idBtn_ocjeneLevelD" onclick="ocjeneRandom(this)"
-            data-level="4" uiSize="size6" uiRadius="right">Level 4</button>
-        </div>
-        <div class="cl_OcjeneLevelExercise">
-          <label class="cl_info" uiRadius="left">Übungen</label><select id="idSel_ocjeneExercise" uiSize="size6"
-            uiRadius="right" onChange="ocjeneExercise(this)"></select>
-        </div>
-        <!-- 3 INSTRUMENT -->
-        <div class="cl_OcjeneInstrumentHeader">
-          <label class="cl_info" uiSize="size12" uiAlign="center">Instrument</label>
-        </div>
-        <div class="cl_OcjeneSongHeader">
-          <label class="cl_info" uiSize="size12">Allgemein</label>
-        </div>
-        <div class="cl_OcjeneTimeSignature">
-          <label class="cl_info" uiRadius="left">Taktart</label><select id="idSel_ocjeneTimeSignature" uiSize="size6"
-            uiRadius="right" onChange="ocjeneTimeSignature(this)"></select>
-        </div>
-        <div class="cl_OcjeneClefs">
-          <label class="cl_info" uiRadius="left">Notenschlüssel</label><select id="idSel_ocjeneClefs" uiSize="size6"
-            uiRadius="right" onChange="ocjeneClefs(this)"></select>
-        </div>
-        <div class="cl_OcjeneKey">
-          <label class="cl_info" uiRadius="left">Tonart</label><select id="idSel_ocjeneKey" uiSize="size3"
-            uiRadius="none" onChange="ocjeneKey(this)"></select><select id="idSel_ocjeneKeySignature" uiSize="size3"
-            uiRadius="right" onChange="ocjeneKeySignature(this)"></select>
-        </div>
-        <div class="cl_OcjeneKeyOnly" uiWrap="nowrap">
-          <label class="cl_info" for="idCb_ocjeneKeyOnly" uiSize="size6" uiAlign="center" uiRadius="left">nur Tonart
-          </label><label class="cl_info" uiSize="size6" uiRadius="right"><input type="checkbox" id="idCb_ocjeneKeyOnly"
-              onclick="ocjeneKeyOnly(this)"></input>
-          </label>
-        </div>
-        <div class="cl_OcjeneTempo">
-          <label class="cl_info" uiSize="size6" uiRadius="left">Tempo
-          </label><input type="number" id="idVin_ocjeneTempo" step="1" uiRadius="none"
-            oninput="ocjeneTempo(this)"></input><button type="button" uiSize="size1" uiRadius="none"
-            onclick="utilsVinChange(this, 0)">
-            <img class="img_trash"></img>
-          </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
-            <img class="img_oSub"></img>
-          </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
-            <img class="img_oAdd"></img>
-          </button>
-        </div>
-        <div class="cl_OcjeneBars">
-          <label class="cl_info" uiSize="size6" uiRadius="left">Takte
-          </label><input type="number" id="idVin_ocjeneBars" min="1" step="1" uiRadius="none"
-            oninput="ocjeneBars(this)"></input><button type="button" uiSize="size1" uiRadius="none"
-            onclick="utilsVinChange(this, 0)">
-            <img class="img_trash"></img>
-          </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
-            <img class="img_oSub"></img>
-          </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
-            <img class="img_oAdd"></img>
-          </button>
-        </div>
-        <div class="cl_OcjeneRhytmusHeader">
-          <label class="cl_info" uiSize="size12" uiAlign="center">Rhytmus</label>
-        </div>
-        <div class="cl_OcjeneNotenwert1" uiWrap="nowrap">
-          <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
-              id="idCb_ocjeneNotenwert1" onclick="ocjeneNotenwert(this)"></input>
-          </label><label class="cl_info" for="idCb_ocjeneNotenwert1" uiSize="size3" uiAlign="center"
-            uiRadius="right">1/1</label>
-        </div>
-        <div class="cl_OcjeneNotenwert2" uiWrap="nowrap">
-          <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
-              id="idCb_ocjeneNotenwert2" onclick="ocjeneNotenwert(this)"></input>
-          </label><label class="cl_info" for="idCb_ocjeneNotenwert2" uiSize="size3" uiAlign="center"
-            uiRadius="right">1/2</label>
-        </div>
-        <div class="cl_OcjeneNotenwert4" uiWrap="nowrap">
-          <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
-              id="idCb_ocjeneNotenwert4" onclick="ocjeneNotenwert(this)"></input>
-          </label><label class="cl_info" for="idCb_ocjeneNotenwert4" uiSize="size3" uiAlign="center"
-            uiRadius="right">1/4</label>
-        </div>
-        <div class="cl_OcjeneNotenwert8" uiWrap="nowrap">
-          <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
-              id="idCb_ocjeneNotenwert8" onclick="ocjeneNotenwert(this)"></input>
-          </label><label class="cl_info" for="idCb_ocjeneNotenwert8" uiSize="size3" uiAlign="center"
-            uiRadius="right">1/8</label>
-        </div>
-        <div class="cl_OcjeneNotenwert16" uiWrap="nowrap">
-          <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
-              id="idCb_ocjeneNotenwert16" onclick="ocjeneNotenwert(this)"></input>
-          </label><label class="cl_info" for="idCb_ocjeneNotenwert16" uiSize="size3" uiAlign="center"
-            uiRadius="right">1/16</label>
-        </div>
-        <div class="cl_OcjeneNotenwert32" uiWrap="nowrap">
-          <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
-              id="idCb_ocjeneNotenwert32" onclick="ocjeneNotenwert(this)"></input>
-          </label><label class="cl_info" for="idCb_ocjeneNotenwert32" uiSize="size3" uiAlign="center"
-            uiRadius="right">1/32</label>
-        </div>
-        <div class="cl_OcjeneDotted" uiWrap="nowrap">
-          <label class="cl_info" uiSize="size6" uiRadius="left">Punktierte [%]</label><input type="number"
-            id="idVin_ocjeneDotted" step="1" min="0" max="50" uiRadius="none"
-            oninput="ocjeneDotted(this)"></input><button type="button" uiSize="size1" uiRadius="none"
-            onclick="utilsVinChange(this, 0)">
-            <img class="img_trash"></img>
-          </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
-            <img class="img_oSub"></img>
-          </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
-            <img class="img_oAdd"></img>
-          </button>
-        </div>
-        <div class="cl_OcjeneTriplet" uiWrap="nowrap">
-          <label class="cl_info" uiSize="size6" uiRadius="left">Triolen [%]</label><input type="number"
-            id="idVin_ocjeneTriplet" step="1" min="0" max="50" uiRadius="none"
-            oninput="ocjeneTriplet(this)"></input><button type="button" uiSize="size1" uiRadius="none"
-            onclick="utilsVinChange(this, 0)">
-            <img class="img_trash"></img>
-          </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
-            <img class="img_oSub"></img>
-          </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
-            <img class="img_oAdd"></img>
-          </button>
-        </div>
-        <div class="cl_OcjeneBarOverflowStop" uiWrap="nowrap">
-          <label class="cl_info" for="idCb_ocjeneBarOverflowStop" uiSize="size6" uiAlign="center" uiRadius="left">Am
-            Takt enden</label><label class="cl_info" uiSize="size6" uiRadius="right"><input type="checkbox"
-              id="idCb_ocjeneBarOverflowStop" onclick="ocjeneBarOverflowStop(this)"></input>
-          </label>
-        </div>
-        <div class="cl_OcjeneMetronome" uiWrap="nowrap">
-          <label class="cl_info" for="idCb_ocjeneMetronome" uiSize="size6" uiAlign="center"
-            uiRadius="left">Metronom</label><label class="cl_info" uiSize="size6" uiRadius="none"><input type="checkbox"
-              id="idCb_ocjeneMetronome" onclick="ocjeneMetronome(this)"></input>
-          </label>
-        </div>
-        <div class="cl_OcjeneRests">
-          <label class="cl_info" uiSize="size6" uiRadius="left">Pausen [%]</label><input type="number"
-            id="idVin_ocjeneRests" step="1" min="0" max="50" uiRadius="none" oninput="ocjeneRests(this)"></input><button
-            type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, 0)">
-            <img class="img_trash"></img>
-          </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
-            <img class="img_oSub"></img>
-          </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
-            <img class="img_oAdd"></img>
-          </button>
-        </div>
-        <div class="cl_OcjeneMelodieHeader">
-          <label class="cl_info" uiSize="size12" uiAlign="center">Melodie</label>
-        </div>
-        <div class="cl_OcjeneInstrument">
-          <label class="cl_info" uiRadius="left">Instrument</label><select id="idSel_ocjeneInstrument" uiSize="size6"
-            uiRadius="right" onChange="ocjeneInstrument(this)"></select>
-        </div>
-        <div class="cl_OcjeneInterval">
-          <label class="cl_info" uiSize="size6" uiRadius="left">max. Interval
-          </label><input type="number" id="idVin_ocjeneInterval" step="1" min="0" uiRadius="none"
-            oninput="ocjeneInterval(this)"></input><button type="button" uiSize="size1" uiRadius="none"
-            onclick="utilsVinChange(this, 0)">
-            <img class="img_trash"></img>
-          </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
-            <img class="img_oSub"></img>
-          </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
-            <img class="img_oAdd"></img>
-          </button>
-        </div>
-        <div class="cl_OcjeneLimitRange" uiWrap="nowrap">
-          <label class="cl_info" for="idCb_ocjeneLimitRange" uiSize="size6" uiAlign="center"
-            uiRadius="left">Tonumfang</label><label class="cl_info" uiSize="size2" uiRadius="right">
-            <input type="checkbox" id="idCb_ocjeneLimitRange" onclick="ocjeneLimitRange(this)"></input></label><select
-            id="idSel_ocjeneLimitRangeLower" uiSize="size2" uiRadius="none" data-sel="lower"
-            onChange="ocjeneLimitRangeSelect(this)"></select><select id="idSel_ocjeneLimitRangeUpper" uiSize="size2"
-            uiRadius="right" data-sel="upper" onChange="ocjeneLimitRangeSelect(this)"></select>
-        </div>
+    <div class="cl_subGrid_Ocjene  section_width_2" uiAlign="center top">
+      <div class="cl_OcjeneSheet">
+        <div id="idCanv_ocjeneSheet"></div>
+        <div id="idCanv_ocjeneAudio"></div>
       </div>
+      <!-- 1  OK -->
+      <div class="cl_OcjeneGenerate">
+        <button type="button" id="idBtn_ocjeneGenerate" onclick="ocjeneGenerate()" uiSize="size12">Neue
+          Melodie</button>
+      </div>
+      <!-- 2 OK -->
+      <div class="cl_OcjeneLevelHeader">
+        <label class="cl_info" uiSize="size12">Level</label>
+      </div>
+      <div class="cl_OcjeneLevelselect1">
+        <button type="button" id="idBtn_ocjeneLevelA" onclick="ocjeneRandom(this)" data-level="1" uiSize="size6"
+          uiRadius="left">Level 1</button><button type="button" id="idBtn_ocjeneLevelB" onclick="ocjeneRandom(this)"
+          data-level="2" uiSize="size6" uiRadius="right">Level 2</button>
+      </div>
+      <div class="cl_OcjeneLevelselect2">
+        <button type="button" id="idBtn_ocjeneLevelC" onclick="ocjeneRandom(this)" data-level="3" uiSize="size6"
+          uiRadius="left">Level 3</button><button type="button" id="idBtn_ocjeneLevelD" onclick="ocjeneRandom(this)"
+          data-level="4" uiSize="size6" uiRadius="right">Level 4</button>
+      </div>
+      <div class="cl_OcjeneLevelExercise">
+        <label class="cl_info" uiRadius="left">Übungen</label><select id="idSel_ocjeneExercise" uiSize="size6"
+          uiRadius="right" onChange="ocjeneExercise(this)"></select>
+      </div>
+      <!-- 3 INSTRUMENT -->
+      <div class="cl_OcjeneInstrumentHeader">
+        <label class="cl_info" uiSize="size12" uiAlign="center">Instrument</label>
+      </div>
+      <div class="cl_OcjeneSongHeader">
+        <label class="cl_info" uiSize="size12">Allgemein</label>
+      </div>
+      <div class="cl_OcjeneTimeSignature">
+        <label class="cl_info" uiRadius="left">Taktart</label><select id="idSel_ocjeneTimeSignature" uiSize="size6"
+          uiRadius="right" onChange="ocjeneTimeSignature(this)"></select>
+      </div>
+      <div class="cl_OcjeneClefs">
+        <label class="cl_info" uiRadius="left">Notenschlüssel</label><select id="idSel_ocjeneClefs" uiSize="size6"
+          uiRadius="right" onChange="ocjeneClefs(this)"></select>
+      </div>
+      <div class="cl_OcjeneKey">
+        <label class="cl_info" uiRadius="left">Tonart</label><select id="idSel_ocjeneKey" uiSize="size6" uiRadius="right"
+          onChange="ocjeneKey(this)"></select>
+      </div>
+      <div class="cl_OcjeneKeyOnly" uiWrap="nowrap">
+        <label class="cl_info" for="idCb_ocjeneKeyOnly" uiSize="size6" uiAlign="center" uiRadius="left">nur Tonart
+        </label><label class="cl_info" uiSize="size6" uiRadius="right"><input type="checkbox" id="idCb_ocjeneKeyOnly"
+            onclick="ocjeneKeyOnly(this)"></input>
+        </label>
+      </div>
+      <div class="cl_OcjeneTempo">
+        <label class="cl_info" uiSize="size6" uiRadius="left">Tempo
+        </label><input type="number" id="idVin_ocjeneTempo" step="1" uiRadius="none"
+          oninput="ocjeneTempo(this)"></input><button type="button" uiSize="size1" uiRadius="none"
+          onclick="utilsVinChange(this, 0)">
+          <img class="img_trash"></img>
+        </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
+          <img class="img_oSub"></img>
+        </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
+          <img class="img_oAdd"></img>
+        </button>
+      </div>
+      <div class="cl_OcjeneBars">
+        <label class="cl_info" uiSize="size6" uiRadius="left">Takte
+        </label><input type="number" id="idVin_ocjeneBars" min="1" step="1" uiRadius="none"
+          oninput="ocjeneBars(this)"></input><button type="button" uiSize="size1" uiRadius="none"
+          onclick="utilsVinChange(this, 0)">
+          <img class="img_trash"></img>
+        </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
+          <img class="img_oSub"></img>
+        </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
+          <img class="img_oAdd"></img>
+        </button>
+      </div>
+      <div class="cl_OcjeneRhytmusHeader">
+        <label class="cl_info" uiSize="size12" uiAlign="center">Rhytmus</label>
+      </div>
+      <div class="cl_OcjeneNotenwert1" uiWrap="nowrap">
+        <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
+            id="idCb_ocjeneNotenwert1" onclick="ocjeneNotenwert(this)"></input>
+        </label><label class="cl_info" for="idCb_ocjeneNotenwert1" uiSize="size3" uiAlign="center"
+          uiRadius="right">1/1</label>
+      </div>
+      <div class="cl_OcjeneNotenwert2" uiWrap="nowrap">
+        <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
+            id="idCb_ocjeneNotenwert2" onclick="ocjeneNotenwert(this)"></input>
+        </label><label class="cl_info" for="idCb_ocjeneNotenwert2" uiSize="size3" uiAlign="center"
+          uiRadius="right">1/2</label>
+      </div>
+      <div class="cl_OcjeneNotenwert4" uiWrap="nowrap">
+        <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
+            id="idCb_ocjeneNotenwert4" onclick="ocjeneNotenwert(this)"></input>
+        </label><label class="cl_info" for="idCb_ocjeneNotenwert4" uiSize="size3" uiAlign="center"
+          uiRadius="right">1/4</label>
+      </div>
+      <div class="cl_OcjeneNotenwert8" uiWrap="nowrap">
+        <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
+            id="idCb_ocjeneNotenwert8" onclick="ocjeneNotenwert(this)"></input>
+        </label><label class="cl_info" for="idCb_ocjeneNotenwert8" uiSize="size3" uiAlign="center"
+          uiRadius="right">1/8</label>
+      </div>
+      <div class="cl_OcjeneNotenwert16" uiWrap="nowrap">
+        <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
+            id="idCb_ocjeneNotenwert16" onclick="ocjeneNotenwert(this)"></input>
+        </label><label class="cl_info" for="idCb_ocjeneNotenwert16" uiSize="size3" uiAlign="center"
+          uiRadius="right">1/16</label>
+      </div>
+      <div class="cl_OcjeneNotenwert32" uiWrap="nowrap">
+        <label class="cl_infoCB" uiRadius="left"><input type="checkbox" class="cl_ocjeneNotenwerte"
+            id="idCb_ocjeneNotenwert32" onclick="ocjeneNotenwert(this)"></input>
+        </label><label class="cl_info" for="idCb_ocjeneNotenwert32" uiSize="size3" uiAlign="center"
+          uiRadius="right">1/32</label>
+      </div>
+      <div class="cl_OcjeneDotted" uiWrap="nowrap">
+        <label class="cl_info" uiSize="size6" uiRadius="left">Punktierte [%]</label><input type="number"
+          id="idVin_ocjeneDotted" step="1" min="0" max="50" uiRadius="none" oninput="ocjeneDotted(this)"></input><button
+          type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, 0)">
+          <img class="img_trash"></img>
+        </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
+          <img class="img_oSub"></img>
+        </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
+          <img class="img_oAdd"></img>
+        </button>
+      </div>
+      <div class="cl_OcjeneTriplet" uiWrap="nowrap">
+        <label class="cl_info" uiSize="size6" uiRadius="left">Triolen [%]</label><input type="number"
+          id="idVin_ocjeneTriplet" step="1" min="0" max="50" uiRadius="none"
+          oninput="ocjeneTriplet(this)"></input><button type="button" uiSize="size1" uiRadius="none"
+          onclick="utilsVinChange(this, 0)">
+          <img class="img_trash"></img>
+        </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
+          <img class="img_oSub"></img>
+        </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
+          <img class="img_oAdd"></img>
+        </button>
+      </div>
+      <div class="cl_OcjeneBarOverflowStop" uiWrap="nowrap">
+        <label class="cl_info" for="idCb_ocjeneBarOverflowStop" uiSize="size6" uiAlign="center" uiRadius="left">Am
+          Takt enden</label><label class="cl_info" uiSize="size6" uiRadius="right"><input type="checkbox"
+            id="idCb_ocjeneBarOverflowStop" onclick="ocjeneBarOverflowStop(this)"></input>
+        </label>
+      </div>
+      <div class="cl_OcjeneMetronome" uiWrap="nowrap">
+        <label class="cl_info" for="idCb_ocjeneMetronome" uiSize="size6" uiAlign="center"
+          uiRadius="left">Metronom</label><label class="cl_info" uiSize="size6" uiRadius="none"><input type="checkbox"
+            id="idCb_ocjeneMetronome" onclick="ocjeneMetronome(this)"></input>
+        </label>
+      </div>
+      <div class="cl_OcjeneRests">
+        <label class="cl_info" uiSize="size6" uiRadius="left">Pausen [%]</label><input type="number"
+          id="idVin_ocjeneRests" step="1" min="0" max="50" uiRadius="none" oninput="ocjeneRests(this)"></input><button
+          type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, 0)">
+          <img class="img_trash"></img>
+        </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
+          <img class="img_oSub"></img>
+        </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
+          <img class="img_oAdd"></img>
+        </button>
+      </div>
+      <div class="cl_OcjeneMelodieHeader">
+        <label class="cl_info" uiSize="size12" uiAlign="center">Melodie</label>
+      </div>
+      <div class="cl_OcjeneInstrument">
+        <label class="cl_info" uiRadius="left">Instrument</label><select id="idSel_ocjeneInstrument" uiSize="size6"
+          uiRadius="right" onChange="ocjeneInstrument(this)"></select>
+      </div>
+      <div class="cl_OcjeneInterval">
+        <label class="cl_info" uiSize="size6" uiRadius="left">max. Interval
+        </label><input type="number" id="idVin_ocjeneInterval" step="1" min="0" uiRadius="none"
+          oninput="ocjeneInterval(this)"></input><button type="button" uiSize="size1" uiRadius="none"
+          onclick="utilsVinChange(this, 0)">
+          <img class="img_trash"></img>
+        </button><button type="button" uiSize="size1" uiRadius="none" onclick="utilsVinChange(this, -1)">
+          <img class="img_oSub"></img>
+        </button><button type="button" uiSize="size1" uiRadius="right" onclick="utilsVinChange(this, 1)">
+          <img class="img_oAdd"></img>
+        </button>
+      </div>
+      <div class="cl_OcjeneShowText" uiWrap="nowrap">
+        <label class="cl_info" for="idCb_ocjeneShowText" uiSize="size6" uiAlign="center"
+          uiRadius="left">Notennamen</label><label class="cl_info" uiSize="size6" uiRadius="none"><input type="checkbox"
+            id="idCb_ocjeneShowText" onclick="ocjeneShowText(this)"></input>
+        </label>
+        <!-- <label class="cl_info" uiSize="size1" uiRadius="right"><input type="checkbox"
+            id="idCb_ocjeneShowMidi" onclick="ocjeneShowMidi(this)"></input>
+        </label> -->
+      </div>
+      <div class="cl_OcjeneLimitRange" uiWrap="nowrap">
+        <label class="cl_info" for="idCb_ocjeneLimitRange" uiSize="size6" uiAlign="center"
+          uiRadius="left">Tonumfang</label><label class="cl_info" uiSize="size2" uiRadius="right">
+          <input type="checkbox" id="idCb_ocjeneLimitRange" onclick="ocjeneLimitRange(this)"></input></label><select
+          id="idSel_ocjeneLimitRangeLower" uiSize="size2" uiRadius="none" data-sel="lower"
+          onChange="ocjeneLimitRangeSelect(this)"></select><select id="idSel_ocjeneLimitRangeUpper" uiSize="size2"
+          uiRadius="right" data-sel="upper" onChange="ocjeneLimitRangeSelect(this)"></select>
+      </div>
+    </div>
   </main>
 </body>
 

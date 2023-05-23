@@ -353,8 +353,9 @@ section {
 		". cl_OcjeneSheet cl_OcjeneBars cl_OcjeneBars cl_OcjeneBars ."
 		/* 5 MELODIE OK */
 		". cl_OcjeneSheet cl_OcjeneMelodieHeader cl_OcjeneMelodieHeader cl_OcjeneMelodieHeader ."
-		". cl_OcjeneSheet cl_OcjeneKeyOnly cl_OcjeneKeyOnly cl_OcjeneKeyOnly ."
 		". cl_OcjeneSheet cl_OcjeneInterval cl_OcjeneInterval cl_OcjeneInterval ."
+		". cl_OcjeneSheet cl_OcjeneKeyOnly cl_OcjeneKeyOnly cl_OcjeneKeyOnly ."
+		". cl_OcjeneSheet cl_OcjeneShowText cl_OcjeneShowText cl_OcjeneShowText ."
 		/* 6  Rhytmus OK */
 		". cl_OcjeneSheet cl_OcjeneRhytmusHeader cl_OcjeneRhytmusHeader cl_OcjeneRhytmusHeader ."
 		". cl_OcjeneSheet cl_OcjeneMetronome cl_OcjeneMetronome cl_OcjeneMetronome ."
@@ -365,13 +366,13 @@ section {
 		". cl_OcjeneSheet cl_OcjeneRests cl_OcjeneRests cl_OcjeneRests ."
 		". cl_OcjeneSheet cl_OcjeneBarOverflowStop cl_OcjeneBarOverflowStop cl_OcjeneBarOverflowStop ."
 		". cl_OcjeneSheet . . . .";
-	grid-template-columns: 1fr var(--CardsWidth) var(--UIWidth4) var(--UIWidth4) var(--UIWidth4) 1fr;
+	grid-template-columns: 1fr auto var(--UIWidth4) var(--UIWidth4) var(--UIWidth4) 1fr;
 	grid-template-rows:
 		var(--UIHeight1)
 		var(--UIHeight2) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1)
 		var(--UIHeight2) var(--UIHeight1) var(--UIHeight1)
 		var(--UIHeight2) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1)
-		var(--UIHeight2) var(--UIHeight1) var(--UIHeight1)
+		var(--UIHeight2) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1)
 		var(--UIHeight2) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1) var(--UIHeight1) auto;
 	grid-gap: var(--cardGap) 0;
 	justify-content: center;
@@ -460,8 +461,9 @@ section {
 			".  cl_OcjeneBars cl_OcjeneBars cl_OcjeneBars ."
 			/* 5 MELODIE OK */
 			".  cl_OcjeneMelodieHeader cl_OcjeneMelodieHeader cl_OcjeneMelodieHeader ."
-			".  cl_OcjeneKeyOnly cl_OcjeneKeyOnly cl_OcjeneKeyOnly ."
 			".  cl_OcjeneInterval cl_OcjeneInterval cl_OcjeneInterval ."
+			".  cl_OcjeneKeyOnly cl_OcjeneKeyOnly cl_OcjeneKeyOnly ."
+			".  cl_OcjeneShowText cl_OcjeneShowText cl_OcjeneShowText ."
 			/* 6  Rhytmus OK */
 			".  cl_OcjeneRhytmusHeader cl_OcjeneRhytmusHeader cl_OcjeneRhytmusHeader ."
 			".  cl_OcjeneMetronome cl_OcjeneMetronome cl_OcjeneMetronome ."
