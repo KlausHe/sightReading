@@ -1046,20 +1046,22 @@ class ocjeneNote {
 		if (this.midiPitch == null) return (this.spaceStembar = true);
 		if (this.slur) return (this.spaceStembar = true); // keine Balken
 		if (dIndex < 3) return (this.spaceStembar = true); // keine Balken
-		if (this.type == "triplet") return;
+		if (this.type == "triplet") return null;
 
 		const diff = this.timeStamp - this.getBarStart();
 		if (diff == 0) return;
 		const signature = ocjeneOptions.timeSignature.currSignature;
 		const accentLength = ocjeneOptions.division / signature.sig[1];
+
+		const accentuationArray = signature.accentuation.length == 1 ?  Array(signature.accentuation[0]).fill(1) : signature.accentuation;
 		let accent = 0;
-		for (let index = 0; index < signature.accentuation.length; index++) {
+		for (let index = 0; index < accentuationArray.length; index++) {
 			const currAccentTimestamp = accentLength * accent;
 			if (diff - currAccentTimestamp <= accentLength && diff % currAccentTimestamp == 0) {
 				this.spaceStembar = true;
 				return;
 			}
-			accent += signature.accentuation[index];
+			accent += accentuationArray[index];
 		}
 	}
 	getBar(offset = 0) {
@@ -1117,7 +1119,7 @@ class ocjeneNote {
 
 		let prefix = this.isOnNewBar() ? " |" : "";
 		prefix += this.spaceStembar ? " " : "";
-		let postfix = this.slur ? "- " : "";  // added space after minus
+		let postfix = this.slur ? "-" : ""; // added space after minus
 		if (this.type == "triplet") {
 			const durationIndex = this.getDurationIndex();
 			prefix += this.tripletIndex == 0 ? " (3" : "";
@@ -1705,7 +1707,7 @@ function ocjeneInputChange() {
 function ocjeneLevelSelect(obj) {
 	ocjeneSettings.type = "level";
 	btnColor("idBtn_ocjeneGenerate", null);
-  btnColor("idSel_ocjeneExercise", null);
+	btnColor("idSel_ocjeneExercise", null);
 	btnColor(`idBtn_ocjeneLevel${ocjeneSettings.level}`, null);
 	ocjeneSettings.level = Number(obj.dataset.level);
 	btnColor(`idBtn_ocjeneLevel${ocjeneSettings.level}`, "positive");
