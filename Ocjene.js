@@ -1117,7 +1117,7 @@ class ocjeneNote {
 
 		let prefix = this.isOnNewBar() ? " |" : "";
 		prefix += this.spaceStembar ? " " : "";
-		let postfix = this.slur ? "-" : "";
+		let postfix = this.slur ? "- " : "";  // added space after minus
 		if (this.type == "triplet") {
 			const durationIndex = this.getDurationIndex();
 			prefix += this.tripletIndex == 0 ? " (3" : "";
