@@ -1,10 +1,7 @@
 // - slur --> balkentrennung beachten!
-/*
-- Tonumfang gerne mit angeben und auch auswählbar machen, 
---> bei jedem level separat -- in Level einbinden
-*/
-// https://github.com/paulrosen/abcjs/blob/main/examples/basic-transpose.html
+
 // https://abcnotation.com/wiki/abc:standard:v2.1
+// https://github.com/paulrosen/abcjs/blob/main/examples/basic-transpose.html
 // http://www.lehrklaenge.de/PHP/Grundlagen/Notenschluessel.php
 // https://www.abcjs.net/abcjs-editor.html
 // https://soundprogramming.net/file-formats/midi-note-ranges-of-orchestral-instruments/
@@ -512,14 +509,14 @@ const ocjeneOptions = {
 			{ abc: "treble", en: "G", de: "Violin" },
 			// { abc: "alto1", en: "C1", de: "Sopran" },
 			// { abc: "alto2", en: "C2", de: "Mezzosopran" },
-			// { abc: "alto", en: "C3", de: "Alt" },
+			{ abc: "alto", en: "C3", de: "Alt" },
 			// { abc: "tenor", en: "C4", de: "Tenor" },
 			// { abc: "bass3", en: "C5", de: "Bariton" },
 			{ abc: "bass", en: "F", de: "Bass" },
 			// { abc: "treble+8", en: "G8va", de: "Violin" },
 			// { abc: "treble-8", en: "G8vb", de: "Violin" },
-			// { abc: "bass+8", en: "F8va", de: "Bass" },
-			{ abc: "bass-8", en: "F8vb", de: "Bass" },
+			{ abc: "bass+8", en: "F8va", de: "Bass" },
+			{ abc: "bass-8", en: "F8vb", de: "Bass -8" },
 		],
 		timeSignatures: [
 			{ sig: [2, 2], postfix: "", accentuation: [2] },
@@ -561,8 +558,8 @@ const ocjeneOptions = {
 };
 
 const ocjeneInstruments = {
-	index: 1,
-	indexOrig: 1,
+	index: 0,
+	indexOrig: 0,
 	get instrument() {
 		return this.data[this.index];
 	},
@@ -583,416 +580,36 @@ const ocjeneInstruments = {
 		if (ocjeneOptions.limitRange.state) return [ocjeneOptions.limitRange.lower, ocjeneOptions.limitRange.upper];
 		return this.getInstrumentRange;
 	},
-	instrumentFilterList: ["Vibraphon", "Klavier", "Violine", "Posaune", "Marimba", "Kontrabass"],
-	dataSel: [
-		{
-			nameDE: "Klavier",
-			family: "Tasteninstrument",
-			midiInstrumentIndex: 0,
-			clef: "G",
-			transposeChromatic: 0,
-			range: [
-				[33, 108],
-				[33, 64],
-			],
-		},
-		{
-			nameDE: "Violine",
-			family: "Streichinstrument",
-			midiInstrumentIndex: 40,
-			clef: "G",
-			range: [
-				[55, 103],
-				[55, 70],
-			],
-		},
-		{
-			nameDE: "Bratsche",
-			family: "Streichinstrument",
-			midiInstrumentIndex: 41,
-			clef: "G",
-			range: [
-				[36, 64],
-				[36, 64],
-			],
-		},
-		{
-			nameDE: "Violoncello",
-			family: "Streichinstrument",
-			midiInstrumentIndex: 42,
-			clef: "F",
-			range: [
-				[36, 76],
-				[36, 50],
-			],
-		},
-		{
-			nameDE: "Kontrabass",
-			family: "Streichinstrument",
-			midiInstrumentIndex: 43,
-			clef: "F",
-			range: [
-				[28, 67],
-				[28, 48],
-			],
-		},
-		{
-			nameDE: "Bassgitarre",
-			family: "Zupfinstrument",
-			midiInstrumentIndex: 32,
-			clef: "F",
-			range: [
-				[28, 67],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Gitarre",
-			family: "Zupfinstrument",
-			midiInstrumentIndex: 24,
-			clef: "G",
-			range: [
-				[40, 88],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Tuba",
-			family: "Blechblasinstrument",
-			midiInstrumentIndex: 58,
-			clef: "F",
-			range: [
-				[28, 58],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Bassposaune",
-			family: "Blechblasinstrument",
-			midiInstrumentIndex: 57,
-			clef: "F",
-			range: [
-				[34, 67],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Posaune",
-			family: "Blechblasinstrument",
-			midiInstrumentIndex: 57,
-			clef: "F",
-			range: [
-				[40, 72],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Flügelhorn",
-			family: "Blechblasinstrument",
-			midiInstrumentIndex: 57,
-			clef: "G",
-			range: [
-				[34, 77],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Trompete",
-			family: "Blechblasinstrument",
-			midiInstrumentIndex: 56,
-			clef: "G",
-			range: [
-				[55, 82],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Piccoloflöte",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 72,
-			clef: "G",
-			range: [
-				[74, 102],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Flöte",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 74,
-			clef: "G",
-			range: [
-				[60, 96],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Oboe",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 68,
-			clef: "G",
-			range: [
-				[58, 91],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Altflöte",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 68,
-			clef: "G",
-			range: [
-				[55, 91],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Englischhorn",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 69,
-			clef: "G",
-			range: [
-				[52, 81],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Klarinette",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 71,
-			clef: "G",
-			range: [
-				[50, 94],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Bassklarinette",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 71,
-			clef: "G",
-			range: [
-				[38, 77],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Fagott",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 70,
-			clef: "F",
-			range: [
-				[34, 75],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Kontrafagott",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 70,
-			clef: "F",
-			range: [
-				[22, 53],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Sopranblockflöte",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 74,
-			clef: "G",
-			range: [
-				[72, 98],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Altblockflöte",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 74,
-			clef: "G",
-			range: [
-				[65, 91],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Tenorblockflöte",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 74,
-			clef: "G",
-			range: [
-				[60, 86],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Bassblockflöte",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 74,
-			clef: "F",
-			range: [
-				[53, 79],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Baritonsaxophon",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 67,
-			clef: "G",
-			range: [
-				[36, 69],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Tenorsaxophon",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 66,
-			clef: "G",
-			range: [
-				[44, 76],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Altsaxophon",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 65,
-			clef: "G",
-			range: [
-				[49, 81],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Sopranosaxophon",
-			family: "Holzblasinstrument",
-			midiInstrumentIndex: 64,
-			clef: "G",
-			range: [
-				[56, 88],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Glockenspiel",
-			family: "Percussion",
-			midiInstrumentIndex: 9,
-			clef: "G",
-			range: [
-				[79, 108],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Xylophon",
-			family: "Percussion",
-			midiInstrumentIndex: 13,
-			clef: "G",
-			range: [
-				[65, 108],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Vibraphon",
-			family: "Percussion",
-			midiInstrumentIndex: 11,
-			clef: "G",
-			range: [
-				[53, 89],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Marimba",
-			family: "Percussion",
-			midiInstrumentIndex: 12,
-			clef: "G",
-			range: [
-				[45, 96],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Bass Marimba",
-			family: "Percussion",
-			midiInstrumentIndex: 12,
-			clef: "G",
-			range: [
-				[33, 81],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Celesta",
-			family: "Tasteninstrument",
+	instrumentFilterList: ["Klarinette", "Bassklarinette", "Altsaxophon", "Tenorsaxophon", "Baritonsaxophon", "Trompete", "Posaune", "Vibraphon", "Marimba", "Glockenspiel", "Violine", "Bratschen", "Cello", "Kontrabass", "Klavier", "Gitarre", "Akustischer Bass"],
+	/*
+  - "Holzbläser"
+  "Klarinette in Bb"
+  "Bassklarinette in Bb"
+  "Altsaxophon"
+  "Tenorsaxophon"
+  "Baritonsaxophon"
 
-			midiInstrumentIndex: 8,
-			clef: "G",
-			range: [
-				[60, 108],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Röhrenglocken",
-			family: "Percussion",
-			midiInstrumentIndex: 14,
-			clef: "G",
-			range: [
-				[60, 77],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Pauken",
-			family: "Percussion",
-			midiInstrumentIndex: 47,
-			clef: "F",
-			range: [
-				[40, 55],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Cembalo",
-			family: "Tasteninstrument",
-			midiInstrumentIndex: 6,
-			clef: "G",
-			range: [
-				[29, 89],
-				[0, 0],
-			],
-		},
-		{
-			nameDE: "Harfe",
-			family: "Zupfinstrument",
-			midiInstrumentIndex: 46,
-			clef: "G",
-			range: [
-				[24, 103],
-				[0, 0],
-			],
-		},
-	],
+  - "Blechbläser"
+  "Trompete in Bb"
+  "Posaune"
+
+  - "Mallets"
+  "Vibraphon"
+  "Marimba "
+  "Glockenspiel"
+
+  - "Streichinstrumente"
+  "Violine"
+  "Viola"
+  "Cello"
+  "Kontrabass"
+
+  - "Rhythmusgruppe"
+  "Klavier"
+  "Gitarre"
+  "Akustischer Bass "
+*/
 	data: [
-		{
-			ID: "trombone-treble",
-			nameEN: "Trombone",
-			nameDE: "Posaune",
-			range: [
-				[40, 71],
-				[36, 74],
-			],
-			nameENtuning: null,
-			transposeChromatic: -14,
-			midiInstrumentIndex: 57,
-			family: "Posaunen",
-			clef: "F",
-		},
 		{
 			ID: "vibraphone",
 			nameEN: "Vibraphone",
@@ -1004,8 +621,22 @@ const ocjeneInstruments = {
 			nameENtuning: null,
 			transposeChromatic: 0,
 			midiInstrumentIndex: 11,
-			family: "Keyboard Perkussion",
+			family: "Mallets",
 			clef: "G",
+		},
+		{
+			ID: "glockenspiel",
+			nameEN: "Glockenspiel",
+			nameDE: "Glockenspiel",
+			range: [
+				[79, 108],
+				[76, 108],
+			],
+			nameENtuning: null,
+			transposeChromatic: 24,
+			midiInstrumentIndex: 9,
+			family: "Mallets",
+			clef: "G15ma",
 		},
 		{
 			ID: "marimba-single",
@@ -1018,8 +649,108 @@ const ocjeneInstruments = {
 			nameENtuning: null,
 			transposeChromatic: 0,
 			midiInstrumentIndex: 12,
-			family: "Keyboard Perkussion",
+			family: "Mallets",
 			clef: "G",
+		},
+		{
+			ID: "bb-clarinet",
+			nameEN: "Clarinet",
+			nameDE: "Klarinette",
+			range: [
+				[50, 89],
+				[50, 94],
+			],
+			nameENtuning: "B♭",
+			transposeChromatic: -2,
+			midiInstrumentIndex: 71,
+			family: "Holzbläser",
+			clef: "G",
+		},
+		{
+			ID: "bb-bass-clarinet",
+			nameEN: "Bass Clarinet",
+			nameDE: "Bassklarinette",
+			range: [
+				[37, 75],
+				[34, 82],
+			],
+			nameENtuning: "B♭",
+			transposeChromatic: -14,
+			midiInstrumentIndex: 71,
+			family: "Holzbläser",
+			clef: "G8vb",
+		},
+		{
+			ID: "alto-saxophone",
+			nameEN: "Alto Saxophone",
+			nameDE: "Altsaxophon",
+			range: [
+				[49, 80],
+				[49, 92],
+			],
+			nameENtuning: null,
+			transposeChromatic: -9,
+			midiInstrumentIndex: 65,
+			family: "Holzbläser",
+			clef: "G",
+		},
+		{
+			ID: "tenor-saxophone",
+			nameEN: "Tenor Saxophone",
+			nameDE: "Tenorsaxophon",
+			range: [
+				[44, 75],
+				[44, 87],
+			],
+			nameENtuning: null,
+			transposeChromatic: -14,
+			midiInstrumentIndex: 66,
+			family: "Holzbläser",
+			clef: "G8vb",
+		},
+		{
+			ID: "baritone-saxophone",
+			nameEN: "Baritone Saxophone",
+			nameDE: "Baritonsaxophon",
+			range: [
+				[36, 68],
+				[36, 80],
+			],
+			nameENtuning: null,
+			transposeChromatic: -21,
+			midiInstrumentIndex: 67,
+			family: "Holzbläser",
+			clef: "F",
+		},
+
+		{
+			ID: "bb-trumpet",
+			nameEN: "Trumpet",
+			nameDE: "Trompete",
+			range: [
+				[52, 80],
+				[52, 85],
+			],
+			nameENtuning: "B♭",
+			transposeChromatic: -2,
+			midiInstrumentIndex: 56,
+			family: "Blechbläser",
+			clef: "G",
+		},
+
+		{
+			ID: "trombone-treble",
+			nameEN: "Trombone",
+			nameDE: "Posaune",
+			range: [
+				[40, 71],
+				[36, 74],
+			],
+			nameENtuning: null,
+			transposeChromatic: -14,
+			midiInstrumentIndex: 57,
+			family: "Blechbläser",
+			clef: "F",
 		},
 		{
 			ID: "upright-piano",
@@ -1032,8 +763,78 @@ const ocjeneInstruments = {
 			nameENtuning: null,
 			transposeChromatic: 0,
 			midiInstrumentIndex: 0,
-			family: "Tasteninstrumente",
+			family: "Rhythmusgruppe",
 			clef: "G",
+		},
+		{
+			ID: "guitar-nylon-treble-clef",
+			nameEN: "Guitar",
+			nameDE: "Gitarre",
+			range: [
+				[40, 83],
+				[40, 83],
+			],
+			nameENtuning: null,
+			transposeChromatic: -12,
+			midiInstrumentIndex: 24,
+			family: "Rhythmusgruppe",
+			clef: "G8vb",
+		},
+		{
+			ID: "acoustic-bass",
+			nameEN: "Acoustic Bass",
+			nameDE: "Akustischer Bass",
+			range: [
+				[28, 62],
+				[28, 67],
+			],
+			nameENtuning: null,
+			transposeChromatic: -12,
+			midiInstrumentIndex: 36,
+			family: "Rhythmusgruppe",
+			clef: "F8vb",
+		},
+		{
+			ID: "violins",
+			nameEN: "Violins",
+			nameDE: "Violine",
+			range: [
+				[55, 88],
+				[55, 103],
+			],
+			nameENtuning: null,
+			transposeChromatic: 0,
+			midiInstrumentIndex: 48,
+			family: "Streichinstrumente",
+			clef: "G",
+		},
+		{
+			ID: "violas",
+			nameEN: "Violas",
+			nameDE: "Bratschen",
+			range: [
+				[48, 79],
+				[48, 93],
+			],
+			nameENtuning: null,
+			transposeChromatic: 0,
+			midiInstrumentIndex: 48,
+			family: "Streichinstrumente",
+			clef: "C3",
+		},
+		{
+			ID: "violoncello",
+			nameEN: "Violoncello",
+			nameDE: "Cello",
+			range: [
+				[36, 67],
+				[36, 90],
+			],
+			nameENtuning: null,
+			transposeChromatic: 0,
+			midiInstrumentIndex: 42,
+			family: "Streichinstrumente",
+			clef: "F",
 		},
 		{
 			ID: "contrabass",
@@ -1046,7 +847,7 @@ const ocjeneInstruments = {
 			nameENtuning: null,
 			transposeChromatic: -12,
 			midiInstrumentIndex: 43,
-			family: "Orchestrale Streicher",
+			family: "Streichinstrumente",
 			clef: "F8vb",
 		},
 	],
@@ -1054,12 +855,16 @@ const ocjeneInstruments = {
 
 const ocjeneSong = {
 	spread: 4,
-	title: "",
+	get title() {
+		if (ocjeneSettings.type == "level") return `Level ${ocjeneSettings[ocjeneSettings.type] + 1}`;
+		let text = ocjeneSettings.exercises[ocjeneSettings.exercise];
+		return text;
+		return `${firstLetterCap(ocjeneSettings.type)} ${ocjeneSettings[ocjeneSettings.type] + 1}`; //randomObject(netsaonaOptions.data.RandomWord);
+	},
 	author: "",
 	get header() {
 		const config = {
-			T: `${firstLetterCap(this.title)}`, //Title --- shot bars:    \n%%barnumbers 1
-			// C: `Musik: ${this.author}`, //Author
+			T: this.title, //Title --- shot bars:    \n%%barnumbers 1
 			// S: `${new Date().getFullYear()}, KlausHe`, // copyright
 			M: ocjeneOptions.timeSignature.currSignature.sig.join("/"), //Taktart
 			L: `1/${ocjeneOptions.division}`, // kleinster Notenwert
@@ -1239,8 +1044,8 @@ class ocjeneNote {
 	insertSpace() {
 		const dIndex = this.getDurationIndex();
 		if (this.midiPitch == null) return (this.spaceStembar = true);
-		if (dIndex < 3) return (this.spaceStembar = true); // keine Balken
 		if (this.slur) return (this.spaceStembar = true); // keine Balken
+		if (dIndex < 3) return (this.spaceStembar = true); // keine Balken
 		if (this.type == "triplet") return;
 
 		const diff = this.timeStamp - this.getBarStart();
@@ -1336,7 +1141,7 @@ class ocjeneNote {
 function ocjeneGenerate() {
 	// console.clear();
 	btnColor("idBtn_ocjeneGenerate", null);
-	ocjeneSong.title = `Notenübung ${ocjeneSettings.level}`; //randomObject(netsaonaOptions.data.RandomWord);
+	if (ocjeneSettings.type == "level") btnColor(`idBtn_ocjeneLevel${ocjeneSettings.level}`, "positive");
 	ocjeneSong.author = "KlausHe"; //randomObject(netsaonaOptions.data.Name);
 	ocjeneSong.noteData = [];
 	ocjeneSong.currentSongLength = 0;
@@ -1608,7 +1413,6 @@ function createOcjene(preset = null) {
 		const option = document.createElement("OPTION");
 		option.textContent = opt.sig.join("/") + opt.postfix;
 		option.value = opt.sig.join("/");
-		// option.title = "Tooltip";
 		if (index == ocjeneOptions.timeSignature.index) option.selected = true;
 		selSignature.appendChild(option);
 	}
@@ -1622,7 +1426,6 @@ function createOcjene(preset = null) {
 	if (preset === null) ocjeneInstruments.index = ocjeneInstruments.indexOrig;
 	//populated at the end
 
-	// ocjeneOptions.clef.index = preset === null ? ocjeneOptions.clef.indexOrig : ocjeneSettings.get("clef");
 	ocjeneOptions.clef.index = ocjeneOptions.definitions.clefs.findIndex((c) => c.en == ocjeneInstruments.instrument.clef);
 	const selClefs = dbID("idSel_ocjeneClefs");
 	clearFirstChild("idSel_ocjeneClefs");
@@ -1636,6 +1439,12 @@ function createOcjene(preset = null) {
 
 	ocjeneOptions.keyOnly.state = preset === null ? ocjeneOptions.keyOnly.stateOrig : ocjeneSettings.get("keyOnly");
 	dbID("idCb_ocjeneKeyOnly").checked = ocjeneOptions.keyOnly.state;
+
+	ocjeneOptions.rests.val = preset === null ? ocjeneOptions.rests.valOrig : ocjeneSettings.get("rests");
+	resetInput("idVin_ocjeneRests", ocjeneOptions.rests.val, {
+		min: ocjeneOptions.rests.min,
+		max: ocjeneOptions.rests.max,
+	});
 
 	ocjeneOptions.dotted.val = preset === null ? ocjeneOptions.dotted.valOrig : ocjeneSettings.get("dotted");
 	resetInput("idVin_ocjeneDotted", ocjeneOptions.dotted.val, {
@@ -1681,13 +1490,17 @@ function createOcjene(preset = null) {
 	// 	textLanguage.appendChild(option);
 	// }
 
-	ocjeneOptions.rests.val = preset === null ? ocjeneOptions.rests.valOrig : ocjeneSettings.get("rests");
-	resetInput("idVin_ocjeneRests", ocjeneOptions.rests.val, {
-		min: ocjeneOptions.rests.min,
-		max: ocjeneOptions.rests.max,
-	});
+	const selExercise = dbID("idSel_ocjeneExercise");
+	clearFirstChild("idSel_ocjeneExercise");
+	for (let [index, exName] of ocjeneSettings.exercises.entries()) {
+		const option = document.createElement("OPTION");
+		option.textContent = exName;
+		// option.textContent = `${index + 1} - ${exName}`;
+		selExercise.appendChild(option);
+		if (index == ocjeneSettings.exercise) option.selected = true;
+	}
 
-	test();
+	// test();
 	ocjenePopulateKeys(); // this needs to be below the KeySignatre definition!!
 	ocjenePopulateInstruments();
 	ocjenePopulateLimitRangeSelect(true);
@@ -1889,124 +1702,117 @@ function ocjeneInputChange() {
 	btnColor("idBtn_ocjeneGenerate", "positive");
 }
 
-function ocjeneRandom(obj) {
+function ocjeneLevelSelect(obj) {
+	ocjeneSettings.type = "level";
+	btnColor("idBtn_ocjeneGenerate", null);
+  btnColor("idSel_ocjeneExercise", null);
+	btnColor(`idBtn_ocjeneLevel${ocjeneSettings.level}`, null);
 	ocjeneSettings.level = Number(obj.dataset.level);
+	btnColor(`idBtn_ocjeneLevel${ocjeneSettings.level}`, "positive");
+	createOcjene(true);
+}
+
+function ocjeneExerciseSelect(obj) {
+	btnColor("idSel_ocjeneExercise", "positive");
+	btnColor("idBtn_ocjeneGenerate", null);
+	btnColor(`idBtn_ocjeneLevel${ocjeneSettings.level}`, null);
+	ocjeneSettings.type = "exercise";
+	ocjeneSettings.exercise = obj.selectedIndex;
 	createOcjene(true);
 }
 
 const ocjeneSettings = {
-	level: 2,
+	type: "level",
+	level: 1,
+	exercise: 0,
 	get(fn) {
 		return this.data[fn];
 	},
+	exercises: ["1/4 Übung", "1/8 Übung", "1/8 Triolen"],
+
 	data: {
 		get tempo() {
-			if (ocjeneSettings.level == 1) return randomObject(90, 110);
-			if (ocjeneSettings.level == 2) return randomObject(90, 110);
-			if (ocjeneSettings.level == 3) return randomObject(90, 110);
-			if (ocjeneSettings.level == 4) return randomObject(90, 110);
+			if (ocjeneSettings.type == "level") return [95, 100, randomObject(90, 110), randomObject(90, 110)][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [95, 100, 100][ocjeneSettings.exercise];
 		},
 		get bars() {
-			if (ocjeneSettings.level == 1) return 4;
-			if (ocjeneSettings.level == 2) return 4;
-			if (ocjeneSettings.level == 3) return 8;
-			if (ocjeneSettings.level == 4) return 16;
+			if (ocjeneSettings.type == "level") return [4, 4, 8, 16][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [4, 4, 4][ocjeneSettings.exercise];
 		},
 		get barOverflowStop() {
-			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return true;
-			if (ocjeneSettings.level == 3) return false;
-			if (ocjeneSettings.level == 4) return false;
+			if (ocjeneSettings.type == "level") return [true, true, false, false][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [true, true, true][ocjeneSettings.exercise];
 		},
 		get metronome() {
-			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return false;
-			if (ocjeneSettings.level == 3) return false;
-			if (ocjeneSettings.level == 4) return false;
+			if (ocjeneSettings.type == "level") return [true, false, false, false][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [true, true, true][ocjeneSettings.exercise];
 		},
 		get showText() {
-			if (ocjeneSettings.level == 1) return false;
-			if (ocjeneSettings.level == 2) return false;
-			if (ocjeneSettings.level == 3) return false;
-			if (ocjeneSettings.level == 4) return false;
+			if (ocjeneSettings.type == "level") return false; //[false, false, false, false][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return false; //[false, false][ocjeneSettings.levexerciseel];
 		},
 		get showMidi() {
-			if (ocjeneSettings.level == 1) return false;
-			if (ocjeneSettings.level == 2) return false;
-			if (ocjeneSettings.level == 3) return false;
-			if (ocjeneSettings.level == 4) return false;
+			if (ocjeneSettings.type == "level") return false; //  [false, false, false, false][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return false; // [false, false, false, false][ocjeneSettings.exercise];
 		},
 		get textLanguage() {
-			if (ocjeneSettings.level == 1) return 5;
-			if (ocjeneSettings.level == 2) return 5;
-			if (ocjeneSettings.level == 3) return 5;
-			if (ocjeneSettings.level == 4) return 5;
+			if (ocjeneSettings.type == "level") return 5; //[5, 5, 5, 5][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return 5; // [5, 5, 5, 5][ocjeneSettings.levexerciseel];
 		},
 		get interval() {
-			if (ocjeneSettings.level == 1) return 4;
-			if (ocjeneSettings.level == 2) return 5;
-			if (ocjeneSettings.level == 3) return 8;
-			if (ocjeneSettings.level == 4) return 10;
+			if (ocjeneSettings.type == "level") return [4, 5, 8, 10][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [2, 4, 4][ocjeneSettings.exercise];
 		},
 		get timeSignature() {
-			if (ocjeneSettings.level == 1) return 3;
-			if (ocjeneSettings.level == 2) return 3;
-			if (ocjeneSettings.level == 3) return 3;
-			if (ocjeneSettings.level == 4) return 3;
+			if (ocjeneSettings.type == "level") return 3; //[3, 3, 3, 3][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return 3; //[3, 3, 3, 3][ocjeneSettings.exercise];
 		},
 		get notenwerte() {
-			if (ocjeneSettings.level == 1) return [1, 1, 1, 0, 0, 0];
-			if (ocjeneSettings.level == 2) return [0, 1, 1, 1, 0, 0];
-			if (ocjeneSettings.level == 3) return [1, 1, 1, 1, 1, 0];
-			if (ocjeneSettings.level == 4) return [0, 1, 1, 1, 1, 0];
+			if (ocjeneSettings.type == "level")
+				return [
+					[1, 1, 1, 0, 0, 0],
+					[0, 1, 1, 1, 0, 0],
+					[0, 0, 1, 1, 1, 0],
+					[0, 1, 1, 1, 1, 0],
+				][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise")
+				return [
+					[0, 0, 1, 0, 0, 0],
+					[0, 0, 0, 1, 0, 0],
+					[0, 0, 0, 1, 0, 0],
+				][ocjeneSettings.exercise];
 		},
 		get keys() {
-			if (ocjeneSettings.level == 1) return 0;
-			if (ocjeneSettings.level == 2) return 0;
-			if (ocjeneSettings.level == 3) return 0;
-			if (ocjeneSettings.level == 4) return 0;
+			if (ocjeneSettings.type == "level") return [0, 0, 0, 0][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return 0; //[0, 0, 0, 0][ocjeneSettings.exercise];
 		},
 		get keyOnly() {
-			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return true;
-			if (ocjeneSettings.level == 3) return false;
-			if (ocjeneSettings.level == 4) return false;
+			if (ocjeneSettings.type == "level") return [true, true, false, false][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [true, true, true][ocjeneSettings.exercise];
 		},
 		get dotted() {
-			if (ocjeneSettings.level == 1) return 0;
-			if (ocjeneSettings.level == 2) return 10;
-			if (ocjeneSettings.level == 3) return 10;
-			if (ocjeneSettings.level == 4) return 15;
+			if (ocjeneSettings.type == "level") return [0, 10, 10, 15][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [0, 0, 0][ocjeneSettings.exercise];
 		},
 		get triplet() {
-			if (ocjeneSettings.level == 1) return 0;
-			if (ocjeneSettings.level == 2) return 0;
-			if (ocjeneSettings.level == 3) return 10;
-			if (ocjeneSettings.level == 4) return 15;
+			if (ocjeneSettings.type == "level") return [0, 0, 10, 15][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [0, 0, 100][ocjeneSettings.exercise];
 		},
 		get rests() {
-			if (ocjeneSettings.level == 1) return 0;
-			if (ocjeneSettings.level == 2) return 0;
-			if (ocjeneSettings.level == 3) return 15;
-			if (ocjeneSettings.level == 4) return 30;
+			if (ocjeneSettings.type == "level") return [0, 0, 15, 30][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [0, 0, 0][ocjeneSettings.exercise];
 		},
 		get limitRange() {
-			if (ocjeneSettings.level == 1) return true;
-			if (ocjeneSettings.level == 2) return true;
-			if (ocjeneSettings.level == 3) return false;
-			if (ocjeneSettings.level == 4) return false;
+			if (ocjeneSettings.type == "level") return [true, true, false, false][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [true, true, true][ocjeneSettings.exercise];
 		},
 		get limitRangeLower() {
-			if (ocjeneSettings.level == 1) return 55;
-			if (ocjeneSettings.level == 2) return 53;
-			if (ocjeneSettings.level == 3) return 53;
-			if (ocjeneSettings.level == 4) return 50;
+			if (ocjeneSettings.type == "level") return [55, 53, 53, 50][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [55, 53, 53, 50][ocjeneSettings.exercise];
 		},
 		get limitRangeUpper() {
-			if (ocjeneSettings.level == 1) return 90;
-			if (ocjeneSettings.level == 2) return 92;
-			if (ocjeneSettings.level == 3) return 94;
-			if (ocjeneSettings.level == 4) return 95;
+			if (ocjeneSettings.type == "level") return [90, 92, 94, 95][ocjeneSettings.level];
+			if (ocjeneSettings.type == "exercise") return [90, 92, 94, 95][ocjeneSettings.exercise];
 		},
 	},
 };

@@ -1,4 +1,3 @@
-
 // -------------------------- Random Data for Ocjene ------------------------
 
 function test() {
@@ -21,6 +20,7 @@ function test() {
 				if (Array.isArray(inst.Channel)) midiInstrumentIndex = Number(inst.Channel[0].program["_value"]);
 				else if (typeof inst.Channel === "object") midiInstrumentIndex = Number(inst.Channel.program["_value"]);
 
+				// const searchName = nameENtuning == null ? nameDE : `${nameDE} in ${nameENtuning}`;
 				dataIndex = ocjeneInstruments.instrumentFilterList.findIndex((d) => d == nameDE);
 				if (dataIndex > -1) {
 					data.push({ ID, nameEN, nameDE, range, nameENtuning, transposeChromatic, midiInstrumentIndex, family, clef });
@@ -28,7 +28,7 @@ function test() {
 			}
 		}
 	}
-	// console.log(data);
+	console.log(data);
 	ocjeneInstruments.data = data;
 	ocjenePopulateInstruments();
 	function downloadJSON(content, fileName) {
@@ -31599,7 +31599,7 @@ const deTranslations = [
 		source: "Violins",
 		comment: "violins longName",
 		extracomment: "longName for Violins (section); Please see https://github.com/musescore/MuseScore/wiki/Translating-instrument-names",
-		translation: "Violinen",
+		translation: "Violine",
 	},
 	{
 		source: "Vlns.",
@@ -31626,7 +31626,7 @@ const deTranslations = [
 		translation: "Tremolo",
 	},
 	{
-		source: "Solo viola.",
+		source: "viola",
 		comment: "viola description",
 		extracomment: "description for Viola; Please see https://github.com/musescore/MuseScore/wiki/Translating-instrument-names",
 		translation: "Solobratsche.",
@@ -31635,13 +31635,13 @@ const deTranslations = [
 		source: "Viola",
 		comment: "viola trackName",
 		extracomment: "trackName for Viola; Please see https://github.com/musescore/MuseScore/wiki/Translating-instrument-names",
-		translation: "Bratsche",
+		translation: "Viola",
 	},
 	{
 		source: "Viola",
 		comment: "viola longName",
 		extracomment: "longName for Viola; Please see https://github.com/musescore/MuseScore/wiki/Translating-instrument-names",
-		translation: "Bratsche",
+		translation: "Viola",
 	},
 	{
 		source: "Vla.",
@@ -31685,6 +31685,12 @@ const deTranslations = [
 		extracomment: "longName for Violas (section); Please see https://github.com/musescore/MuseScore/wiki/Translating-instrument-names",
 		translation: "Bratschen",
 	},
+  {
+    source: "Viola",
+    comment: "viola longName",
+    extracomment: "longName for Viola; Please see https://github.com/musescore/MuseScore/wiki/Translating-instrument-names",
+    translation: "Bratsche"
+  },
 	{
 		source: "Vlas.",
 		comment: "violas shortName",
@@ -31719,13 +31725,13 @@ const deTranslations = [
 		source: "Violoncello",
 		comment: "violoncello trackName",
 		extracomment: "trackName for Violoncello; Please see https://github.com/musescore/MuseScore/wiki/Translating-instrument-names",
-		translation: "Violoncello",
+		translation: "Cello",
 	},
 	{
 		source: "Violoncello",
 		comment: "violoncello longName",
 		extracomment: "longName for Violoncello; Please see https://github.com/musescore/MuseScore/wiki/Translating-instrument-names",
-		translation: "Violoncello",
+		translation: "Cello",
 	},
 	{
 		source: "Vc.",

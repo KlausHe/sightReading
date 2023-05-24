@@ -68,26 +68,26 @@
 
 @font-face {
 	font-family: "PTSerif";
-	src: url("/font/pt-serif-regular.woff2") format("woff2");
+	src: url("font/pt-serif-regular.woff2") format("woff2");
 	font-weight: 400;
 	font-style: normal;
 }
 @font-face {
 	font-family: "PTSerif";
-	src: url("/font/pt-serif-regular.woff") format("woff");
+	src: url("font/pt-serif-regular.woff") format("woff");
 	font-weight: 400;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "PTSerif";
-	src: url("/font/pt-serif-italic.woff2") format("woff2");
+	src: url("font/pt-serif-italic.woff2") format("woff2");
 	font-weight: 400;
 	font-style: italic;
 }
 @font-face {
 	font-family: "PTSerif";
-	src: url("/font/pt-serif-italic.woff") format("woff");
+	src: url("font/pt-serif-italic.woff") format("woff");
 	font-weight: 400;
 	font-style: italic;
 }
@@ -361,9 +361,9 @@ section {
 		". cl_OcjeneSheet cl_OcjeneMetronome cl_OcjeneMetronome cl_OcjeneMetronome ."
 		". cl_OcjeneSheet cl_OcjeneNotenwert1 cl_OcjeneNotenwert4 cl_OcjeneNotenwert16 ."
 		". cl_OcjeneSheet cl_OcjeneNotenwert2 cl_OcjeneNotenwert8 cl_OcjeneNotenwert32 ."
+		". cl_OcjeneSheet cl_OcjeneRests cl_OcjeneRests cl_OcjeneRests ."
 		". cl_OcjeneSheet cl_OcjeneDotted cl_OcjeneDotted cl_OcjeneDotted ."
 		". cl_OcjeneSheet cl_OcjeneTriplet cl_OcjeneTriplet cl_OcjeneTriplet ."
-		". cl_OcjeneSheet cl_OcjeneRests cl_OcjeneRests cl_OcjeneRests ."
 		". cl_OcjeneSheet cl_OcjeneBarOverflowStop cl_OcjeneBarOverflowStop cl_OcjeneBarOverflowStop ."
 		". cl_OcjeneSheet . . . .";
 	grid-template-columns: 1fr auto var(--UIWidth4) var(--UIWidth4) var(--UIWidth4) 1fr;
@@ -469,9 +469,9 @@ section {
 			".  cl_OcjeneMetronome cl_OcjeneMetronome cl_OcjeneMetronome ."
 			".  cl_OcjeneNotenwert1 cl_OcjeneNotenwert4 cl_OcjeneNotenwert16 ."
 			".  cl_OcjeneNotenwert2 cl_OcjeneNotenwert8 cl_OcjeneNotenwert32 ."
+			".  cl_OcjeneRests cl_OcjeneRests cl_OcjeneRests ."
 			".  cl_OcjeneDotted cl_OcjeneDotted cl_OcjeneDotted ."
 			".  cl_OcjeneTriplet cl_OcjeneTriplet cl_OcjeneTriplet ."
-			".  cl_OcjeneRests cl_OcjeneRests cl_OcjeneRests ."
 			".  cl_OcjeneBarOverflowStop cl_OcjeneBarOverflowStop cl_OcjeneBarOverflowStop .";
 		grid-template-columns: 1fr auto auto auto 1fr;
 		grid-template-rows:
@@ -534,21 +534,22 @@ section {
 
 .img_trash {
 	width: var(--imgSize);
-	content: url("../Images/Icons/trash.svg");
+	content: url("Images/trash.svg");
 }
 
 .img_oAdd {
 	width: var(--imgSize);
-	content: url("../Images/Icons/oAdd.svg");
+	content: url("Images/oAdd.svg");
 }
 
 .img_oSub {
 	width: var(--imgSize);
-	content: url("../Images/Icons/oSub.svg");
+	content: url("Images/oSub.svg");
 }
 
 [data-btnstatus="btnPositive"] {
-	background-color: hsl(var(--bgcButtonPositive));
+	/* background-color: hsl(var(--bgcButtonPositive)); */
+	background: hsl(var(--bgcButtonPositive));
 	color: hsl(var(--txtButtonPositive));
 }
 

@@ -263,7 +263,7 @@ function colToggleColormode(btn = null) {
 		colTxt = `${txt[0]} ${txt[1]}% ${txt[2]}%`;
 		mainTxt = `${mTxt[0]} ${mTxt[1]}% ${mTxt[2]}%`;
 		if (dbID("idImg_footer_Spacer")) {
-			dbID("idImg_footer_Spacer").src = "Images/Icons/opt-sun.svg";
+			dbID("idImg_footer_Spacer").src = "Images/opt-sun.svg";
 			dbIDStyle("idImg_footer_Spacer").filter = "invert(100%)";
 		}
 	} else {
@@ -274,7 +274,7 @@ function colToggleColormode(btn = null) {
 		colTxt = `${txt[0]} ${txt[1]}% ${txt[2]}%`;
 		mainTxt = `${mTxt[0]} ${mTxt[1]}% ${mTxt[2]}%`;
 		if (dbID("idImg_footer_Spacer")) {
-			dbID("idImg_footer_Spacer").src = "Images/Icons/opt-moon.svg";
+			dbID("idImg_footer_Spacer").src = "Images/opt-moon.svg";
 			dbIDStyle("idImg_footer_Spacer").filter = "invert(0%)";
 		}
 	}
