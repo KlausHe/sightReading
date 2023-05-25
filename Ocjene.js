@@ -615,8 +615,8 @@ const ocjeneInstruments = {
 			nameEN: "Vibraphone",
 			nameDE: "Vibraphon",
 			range: [
+				[60, 64],
 				[53, 89],
-				[48, 96],
 			],
 			nameENtuning: null,
 			transposeChromatic: 0,
@@ -857,21 +857,19 @@ const ocjeneSong = {
 	spread: 4,
 	get title() {
 		if (ocjeneSettings.type == "level") return `Level ${ocjeneSettings[ocjeneSettings.type] + 1}`;
-		let text = ocjeneSettings.exercises[ocjeneSettings.exercise];
-		return text;
-		return `${firstLetterCap(ocjeneSettings.type)} ${ocjeneSettings[ocjeneSettings.type] + 1}`; //randomObject(netsaonaOptions.data.RandomWord);
+		return ocjeneSettings.exercises[ocjeneSettings.exercise];
 	},
 	author: "",
 	get header() {
 		const config = {
-			T: this.title, //Title --- shot bars:    \n%%barnumbers 1
+			T: this.title, //Title
 			// S: `${new Date().getFullYear()}, KlausHe`, // copyright
 			M: ocjeneOptions.timeSignature.currSignature.sig.join("/"), //Taktart
 			L: `1/${ocjeneOptions.division}`, // kleinster Notenwert
 			Q: `1/4=${ocjeneOptions.tempo.val}`, // tempo
 			K: `${ocjeneOptions.keys.current} clef=${ocjeneOptions.clef.abcName()}`, //  Tonart, Reihenfolge wichtig!
 		};
-		const options = ["%score Melody"];
+		const options = ["%score Melody"]; //"%%barnumbers 1",
 		const text =
 			Object.entries(config)
 				.map(([key, value]) => `${key}:${value}\n`)
@@ -1044,16 +1042,16 @@ class ocjeneNote {
 	insertSpace() {
 		const dIndex = this.getDurationIndex();
 		if (this.midiPitch == null) return (this.spaceStembar = true);
-		if (this.slur) return (this.spaceStembar = true); // keine Balken
+		// if (this.slur) return (this.spaceStembar = true); // keine Balken
 		if (dIndex < 3) return (this.spaceStembar = true); // keine Balken
-		if (this.type == "triplet") return null;
+		if (this.type == "triplet") return;
 
 		const diff = this.timeStamp - this.getBarStart();
 		if (diff == 0) return;
 		const signature = ocjeneOptions.timeSignature.currSignature;
 		const accentLength = ocjeneOptions.division / signature.sig[1];
 
-		const accentuationArray = signature.accentuation.length == 1 ?  Array(signature.accentuation[0]).fill(1) : signature.accentuation;
+		const accentuationArray = signature.accentuation.length == 1 ? Array(signature.accentuation[0]).fill(1) : signature.accentuation;
 		let accent = 0;
 		for (let index = 0; index < accentuationArray.length; index++) {
 			const currAccentTimestamp = accentLength * accent;
@@ -1746,7 +1744,7 @@ const ocjeneSettings = {
 			if (ocjeneSettings.type == "exercise") return [true, true, true][ocjeneSettings.exercise];
 		},
 		get metronome() {
-			if (ocjeneSettings.type == "level") return [true, false, false, false][ocjeneSettings.level];
+			if (ocjeneSettings.type == "level") return [false, false, false, false][ocjeneSettings.level];
 			if (ocjeneSettings.type == "exercise") return [true, true, true][ocjeneSettings.exercise];
 		},
 		get showText() {
